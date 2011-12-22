@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.dhiller.jenkinsstatus</groupId>
+	<artifactId>jenkinsstatus</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Jenkins Swing Status Monitor</name>
+	<description>Jenkins Status Monitor - a Java swing application based on SteelSeries library</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>eu.hansolo</groupId>
+			<artifactId>SteelSeries</artifactId>
+			<version>3.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
+
+</project>
