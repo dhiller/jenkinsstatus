@@ -28,7 +28,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -37,9 +36,9 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import org.jdom.Document;
 import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+
+import de.dhiller.ci.jenkins.Status;
 
 public class Main extends JFrame {
 
@@ -77,14 +76,10 @@ public class Main extends JFrame {
 				    final URI uri = new URI(serverURI.getText());
 				    preferences.put(SERVER_URI, uri
 					    .toASCIIString());
-				    SAXBuilder sb = new SAXBuilder();
-				    Document doc = sb
-					    .build(new InputStreamReader(
-						    new URI(uri.toASCIIString()
-							    + "/rssLatest")
-							    .toURL()
-							    .openStream()));
-				    System.out.println(doc.toString()); //$NON-NLS-1$ // TODO: Remove
+				    final String jenkinsrssLatestURI = uri
+					    .toASCIIString();
+				    new Status()
+					    .parse(jenkinsrssLatestURI);
 				} catch (URISyntaxException e1) {
 				    e1.printStackTrace(); // TODO
 				    JOptionPane.showMessageDialog(Main.this,
