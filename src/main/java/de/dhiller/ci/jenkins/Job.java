@@ -25,9 +25,19 @@ package de.dhiller.ci.jenkins;
 public class Job {
 
     String name;
+    JobStatus status;
 
     public String name() {
 	return name;
+    }
+
+    public JobStatus status() {
+	return status;
+    }
+
+    @Override
+    public String toString() {
+	return "Job [name=" + name + ", status=" + status + "]";
     }
 
 }

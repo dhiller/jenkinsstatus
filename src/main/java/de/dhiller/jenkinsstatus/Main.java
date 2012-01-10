@@ -25,12 +25,11 @@ package de.dhiller.jenkinsstatus;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.prefs.Preferences;
 
@@ -38,74 +37,38 @@ import javax.swing.*;
 
 import org.jdom.JDOMException;
 
-import de.dhiller.ci.jenkins.Status;
-
 public class Main extends JFrame {
 
-    private static final String SERVER_URI = "ServerURI";
-    private static final Preferences preferences = Preferences
+    private final class EditPreferences extends AbstractAction {
+	private EditPreferences() {
+	    super("...");
+	}
+
+	public void actionPerformed(ActionEvent e) {
+	    new PreferencesDialog(Main.this, "Settings", true).setVisible(true);
+	}
+    }
+
+    static final Preferences preferences = Preferences
 	    .userNodeForPackage(Main.class);
+
+    private final StatusPanel status = new StatusPanel();
 
     private Main() {
 	super("Jenkins Status");
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.getContentPane().setLayout(new BorderLayout());
-	final JPanel status = new JPanel();
 	this.getContentPane().add(status);
+	initStatus();
 	final JPanel buttons = new JPanel();
 	buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	buttons.add(new JButton(new AbstractAction("...") {
-
-	    public void actionPerformed(ActionEvent e) {
-		new JDialog(Main.this, "Settings", true) {
-		    {
-			getContentPane().setLayout(new BorderLayout());
-			final JPanel main = new JPanel();
-			main.setLayout(new GridLayout(1, 2));
-			main.add(new JLabel("Server URI"));
-			final JTextField serverURI = new JTextField();
-			serverURI.setText(preferences.get(SERVER_URI, ""));
-			main.add(serverURI);
-			getContentPane().add(main);
-			final JPanel okCancel = new JPanel();
-			okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			okCancel.add(new JButton(new AbstractAction("OK") {
-
-			    public void actionPerformed(ActionEvent e) {
-				try {
-				    final URI uri = new URI(serverURI.getText());
-				    preferences.put(SERVER_URI, uri
-					    .toASCIIString());
-				    final String jenkinsrssLatestURI = uri
-					    .toASCIIString();
-				    new Status()
-					    .parse(jenkinsrssLatestURI);
-				} catch (URISyntaxException e1) {
-				    e1.printStackTrace(); // TODO
-				    JOptionPane.showMessageDialog(Main.this,
-					    "URI invalid!");
-				} catch (JDOMException e2) {
-				    e2.printStackTrace(); // TODO
-				} catch (IOException e3) {
-				    e3.printStackTrace(); // TODO
-				}
-			    }
-			}));
-			okCancel.add(new JButton(new AbstractAction("Cancel") {
-
-			    public void actionPerformed(ActionEvent e) {
-				dispose();
-			    }
-			}));
-			getContentPane().add(okCancel, BorderLayout.SOUTH);
-			pack();
-
-		    }
-		}.setVisible(true);
-	    }
-	}));
+	buttons.add(new JButton(new EditPreferences()));
 	this.getContentPane().add(buttons, BorderLayout.SOUTH);
 	pack();
+    }
+
+    void initStatus() {
+	new StatusUpdater(preferences, status, Main.this).execute();
     }
 
     public static void main(String[] args) {

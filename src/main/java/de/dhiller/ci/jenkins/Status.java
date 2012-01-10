@@ -29,22 +29,22 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.xpath.XPath;
+import org.dom4j.Document;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 
 public class Status {
 
-    private String serverName;
-    private ArrayList<Job> jobs;
+    private String serverName = "?";
+    private List<Job> jobs = Collections.emptyList();
 
-    public void parse(String jenkinsrssLatestURI) throws MalformedURLException,
-	    JDOMException, IOException, URISyntaxException {
-	final InputStream stream = new URI(jenkinsrssLatestURI + "/api/xml")
+    public void parse(String jenkinsrssLatestURI) throws Exception {
+	// TODO: Reduce number of exception types
+	final InputStream stream = new URI(jenkinsrssLatestURI
+		+ (jenkinsrssLatestURI.endsWith("/") ? "" : "/") + "api/xml")
 		.toURL().openStream();
 	try {
 	    parse(stream);
@@ -57,20 +57,31 @@ public class Status {
 	return serverName;
     }
 
-    void parse(final InputStream stream) throws JDOMException, IOException {
-	SAXBuilder sb = new SAXBuilder();
-	Document doc = sb.build(new InputStreamReader(stream));
-	serverName = ((Element) XPath.selectSingleNode(doc,
-		"//hudson/description")).getText();
+    void parse(final InputStream stream) throws Exception {
+	SAXReader reader = new SAXReader();
+	Document document = reader.read(stream);
+	serverName = description(document)
+		.getText();
 	jobs = new ArrayList<Job>();
-	final List jobElements = XPath.selectNodes(doc, "//hudson/job");
+	final List<?> jobElements = document.selectNodes("//hudson/job");
 	for (int index = 0, n = jobElements.size(); index < n; index++) {
 	    final Job job = new Job();
-	    final Element jobElement = (Element) jobElements.get(index);
-	    job.name = ((Element) XPath.selectSingleNode(jobElement,
-		    "//hudson/job[" + (index + 1) + "]/name")).getText();
+	    final Node jobElement = (Node) jobElements.get(index);
+	    job.name = document.selectSingleNode(
+		    "//hudson/job[" + (index + 1) + "]/name").getText();
+	    job.status = JobStatus.valueOf(document.selectSingleNode(
+				    "//hudson/job[" + (index + 1) + "]/color")
+			    .getText().toUpperCase());
 	    jobs.add(job);
 	}
+    }
+
+    Node description(Document document) {
+	final Node description = document
+		.selectSingleNode("//hudson/description");
+	if (description != null)
+	    return description;
+	return document.selectSingleNode("//hudson/nodeName");
     }
 
     public List<Job> jobs() {

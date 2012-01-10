@@ -13,58 +13,58 @@
 	<action></action>
 	<action></action>
 	<description></description>
-	<displayName>webservice_SmartGate</displayName>
-	<name>webservice_SmartGate</name>
-	<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/</url>
+	<displayName>First_Job</displayName>
+	<name>First_Job</name>
+	<url>http://dhiller-jenkins:8080/job/First_Job/</url>
 	<buildable>true</buildable>
 	<build>
 		<number>14</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/14/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/14/</url>
 	</build>
 	<build>
 		<number>13</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/13/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/13/</url>
 	</build>
 	<build>
 		<number>12</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/12/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/12/</url>
 	</build>
 	<build>
 		<number>11</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/11/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/11/</url>
 	</build>
 	<build>
 		<number>9</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/9/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/9/</url>
 	</build>
 	<build>
 		<number>8</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/8/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/8/</url>
 	</build>
 	<build>
 		<number>7</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/7/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/7/</url>
 	</build>
 	<build>
 		<number>6</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/6/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/6/</url>
 	</build>
 	<build>
 		<number>5</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/5/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/5/</url>
 	</build>
 	<build>
 		<number>4</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/4/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/4/</url>
 	</build>
 	<build>
 		<number>3</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/3/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/3/</url>
 	</build>
 	<color>yellow</color>
 	<firstBuild>
 		<number>3</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/3/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/3/</url>
 	</firstBuild>
 	<healthReport>
 		<description>Build-Stabilität: 1 der letzten 5 Builds schlug fehl.</description>
@@ -80,27 +80,27 @@
 	<keepDependencies>false</keepDependencies>
 	<lastBuild>
 		<number>14</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/14/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/14/</url>
 	</lastBuild>
 	<lastCompletedBuild>
 		<number>14</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/14/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/14/</url>
 	</lastCompletedBuild>
 	<lastFailedBuild>
 		<number>12</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/12/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/12/</url>
 	</lastFailedBuild>
 	<lastSuccessfulBuild>
 		<number>14</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/14/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/14/</url>
 	</lastSuccessfulBuild>
 	<lastUnstableBuild>
 		<number>14</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/14/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/14/</url>
 	</lastUnstableBuild>
 	<lastUnsuccessfulBuild>
 		<number>14</number>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/14/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/14/</url>
 	</lastUnsuccessfulBuild>
 	<nextBuildNumber>15</nextBuildNumber>
 	<property></property>
@@ -119,86 +119,86 @@
 	<scm></scm>
 	<module>
 		<name>de.dbap.webservice:webservice</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice/</url>
 		<color>blue</color>
-		<displayName>webservice_SmartGate</displayName>
+		<displayName>First_Job</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webserviceBase</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webserviceBase/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webserviceBase/</url>
 		<color>blue</color>
 		<displayName>webserviceBase</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_CacheInitializer</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_CacheInitializer/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_CacheInitializer/</url>
 		<color>blue</color>
 		<displayName>webservice_CacheInitializer</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_CacheKeyAnalyzer</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_CacheKeyAnalyzer/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_CacheKeyAnalyzer/</url>
 		<color>blue</color>
 		<displayName>webservice_CacheKeyAnalyzer</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_CacheUpdater</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_CacheUpdater/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_CacheUpdater/</url>
 		<color>blue</color>
 		<displayName>webservice_CacheUpdater</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_CachedDataAnalyzer</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_CachedDataAnalyzer/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_CachedDataAnalyzer/</url>
 		<color>blue</color>
 		<displayName>webservice_CachedDataAnalyzer</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_Distribution</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_Distribution/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_Distribution/</url>
 		<color>blue</color>
-		<displayName>webservice_SmartGate</displayName>
+		<displayName>First_Job</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_GetItemsMaintainer</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_GetItemsMaintainer/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_GetItemsMaintainer/</url>
 		<color>blue</color>
 		<displayName>webservice_GetItemsMaintainer</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_IntegrationTests</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_IntegrationTests/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_IntegrationTests/</url>
 		<color>yellow</color>
 		<displayName>webservice_IntegrationTests</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_SearchItemsIndexBuilder</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_SearchItemsIndexBuilder/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_SearchItemsIndexBuilder/</url>
 		<color>blue</color>
 		<displayName>webservice_SearchItemsIndexBuilder</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_SearchItemsSuggestionsMaintainer</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_SearchItemsSuggestionsMaintainer/
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_SearchItemsSuggestionsMaintainer/
 		</url>
 		<color>blue</color>
 		<displayName>webservice_SearchItemsSuggestionsMaintainer</displayName>
 	</module>
 	<module>
-		<name>de.dbap.webservice:webservice_SmartGate</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_SmartGate/</url>
+		<name>de.dbap.webservice:First_Job</name>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$First_Job/</url>
 		<color>blue</color>
-		<displayName>webservice_SmartGate</displayName>
+		<displayName>First_Job</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_TestBaseData</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_TestBaseData/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_TestBaseData/</url>
 		<color>blue</color>
 		<displayName>webservice_TestBaseData</displayName>
 	</module>
 	<module>
 		<name>de.dbap.webservice:webservice_XML</name>
-		<url>http://dhiller-jenkins:8080/job/webservice_SmartGate/de.dbap.webservice$webservice_XML/</url>
+		<url>http://dhiller-jenkins:8080/job/First_Job/de.dbap.webservice$webservice_XML/</url>
 		<color>blue</color>
 		<displayName>webservice_XML</displayName>
 	</module>

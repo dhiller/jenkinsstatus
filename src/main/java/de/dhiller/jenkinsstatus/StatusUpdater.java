@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, dhiller, http://www.dhiller.de Daniel Hiller, Warendorfer Str. 47, 48231 Warendorf, NRW,
+ * Copyright (c) 2012, dhiller, http://www.dhiller.de Daniel Hiller, Warendorfer Str. 47, 48231 Warendorf, NRW,
  * Germany, All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -20,63 +20,47 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package de.dhiller.ci.jenkins;
+package de.dhiller.jenkinsstatus;
 
-import static org.testng.AssertJUnit.*;
+import java.net.URI;
+import java.util.concurrent.ExecutionException;
+import java.util.prefs.Preferences;
 
-import java.io.IOException;
-
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import javax.swing.JFrame;
+import javax.swing.SwingWorker;
 
 import de.dhiller.ci.jenkins.Status;
 
-public class StatusTest {
+final class StatusUpdater extends
+        SwingWorker<Status, Object> {
 
-    private Status status;
+    private final Preferences preferences;
+    private final StatusPanel status;
+    private final Main frame;
 
-    @BeforeClass
-    void setUpTestInstance() throws Exception {
-	status = new Status();
-	status.parse(getClass().getResourceAsStream(
-		"/api.xml"));
+    StatusUpdater(Preferences preferences, StatusPanel status, Main frame) {
+        this.preferences = preferences;
+        this.status = status;
+        this.frame = frame;
     }
 
-    @Test
-    public void serverName() throws Exception {
-	assertTrue(status.serverName().contains("Jenkins Instanz auf dhiller"));
+    @Override
+    protected Status doInBackground() throws Exception {
+        final String jenkinsrssLatestURI = new URI(preferences.get(
+    	    Constants.SERVER_URI, "")).toASCIIString();
+        final Status serverStatus = new Status();
+        serverStatus.parse(jenkinsrssLatestURI);
+        return serverStatus;
     }
 
-    @Test
-    public void hasJobs() throws Exception {
-	assertFalse(status.jobs().isEmpty());
+    protected void done() {
+        try {
+    	status.updateStatus(get());
+        } catch (InterruptedException e) {
+    	e.printStackTrace(); // TODO
+        } catch (ExecutionException e) {
+    	e.printStackTrace(); // TODO
+        }
+        frame.pack();
     }
-
-    @Test
-    public void names() throws Exception {
-	assertEquals("First_Job", first().name());
-	assertEquals("Second_Job", second().name());
-	assertEquals("Third_Job", third().name());
-    }
-
-    @Test
-    public void statuses() throws Exception {
-	assertEquals(JobStatus.YELLOW, first().status());
-	assertEquals(JobStatus.RED, second().status());
-	assertEquals(JobStatus.BLUE, third().status());
-    }
-
-    Job third() {
-	return status.jobs().get(2);
-    }
-
-    Job first() {
-	return status.jobs().get(0);
-    }
-
-    Job second() {
-	return status.jobs().get(1);
-    }
-
 }

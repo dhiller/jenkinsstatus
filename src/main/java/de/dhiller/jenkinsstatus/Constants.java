@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, dhiller, http://www.dhiller.de Daniel Hiller, Warendorfer Str. 47, 48231 Warendorf, NRW,
+ * Copyright (c) 2012, dhiller, http://www.dhiller.de Daniel Hiller, Warendorfer Str. 47, 48231 Warendorf, NRW,
  * Germany, All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -20,63 +20,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package de.dhiller.ci.jenkins;
+package de.dhiller.jenkinsstatus;
 
-import static org.testng.AssertJUnit.*;
+public final class Constants {
 
-import java.io.IOException;
-
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import de.dhiller.ci.jenkins.Status;
-
-public class StatusTest {
-
-    private Status status;
-
-    @BeforeClass
-    void setUpTestInstance() throws Exception {
-	status = new Status();
-	status.parse(getClass().getResourceAsStream(
-		"/api.xml"));
-    }
-
-    @Test
-    public void serverName() throws Exception {
-	assertTrue(status.serverName().contains("Jenkins Instanz auf dhiller"));
-    }
-
-    @Test
-    public void hasJobs() throws Exception {
-	assertFalse(status.jobs().isEmpty());
-    }
-
-    @Test
-    public void names() throws Exception {
-	assertEquals("First_Job", first().name());
-	assertEquals("Second_Job", second().name());
-	assertEquals("Third_Job", third().name());
-    }
-
-    @Test
-    public void statuses() throws Exception {
-	assertEquals(JobStatus.YELLOW, first().status());
-	assertEquals(JobStatus.RED, second().status());
-	assertEquals(JobStatus.BLUE, third().status());
-    }
-
-    Job third() {
-	return status.jobs().get(2);
-    }
-
-    Job first() {
-	return status.jobs().get(0);
-    }
-
-    Job second() {
-	return status.jobs().get(1);
-    }
+    static final String SERVER_URI = "ServerURI";
 
 }

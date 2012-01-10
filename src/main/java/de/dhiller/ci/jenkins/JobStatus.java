@@ -22,61 +22,6 @@
 
 package de.dhiller.ci.jenkins;
 
-import static org.testng.AssertJUnit.*;
-
-import java.io.IOException;
-
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import de.dhiller.ci.jenkins.Status;
-
-public class StatusTest {
-
-    private Status status;
-
-    @BeforeClass
-    void setUpTestInstance() throws Exception {
-	status = new Status();
-	status.parse(getClass().getResourceAsStream(
-		"/api.xml"));
-    }
-
-    @Test
-    public void serverName() throws Exception {
-	assertTrue(status.serverName().contains("Jenkins Instanz auf dhiller"));
-    }
-
-    @Test
-    public void hasJobs() throws Exception {
-	assertFalse(status.jobs().isEmpty());
-    }
-
-    @Test
-    public void names() throws Exception {
-	assertEquals("First_Job", first().name());
-	assertEquals("Second_Job", second().name());
-	assertEquals("Third_Job", third().name());
-    }
-
-    @Test
-    public void statuses() throws Exception {
-	assertEquals(JobStatus.YELLOW, first().status());
-	assertEquals(JobStatus.RED, second().status());
-	assertEquals(JobStatus.BLUE, third().status());
-    }
-
-    Job third() {
-	return status.jobs().get(2);
-    }
-
-    Job first() {
-	return status.jobs().get(0);
-    }
-
-    Job second() {
-	return status.jobs().get(1);
-    }
-
+public enum JobStatus {
+    BLUE, YELLOW, RED;
 }
