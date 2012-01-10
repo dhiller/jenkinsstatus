@@ -26,6 +26,7 @@ public class Job {
 
     String name;
     JobStatus status;
+    boolean running;
 
     public String name() {
 	return name;
@@ -33,6 +34,10 @@ public class Job {
 
     public JobStatus status() {
 	return status;
+    }
+
+    public boolean isRunning() {
+	return running;
     }
 
     @Override

@@ -65,18 +65,31 @@ public class StatusTest {
 	assertEquals(JobStatus.YELLOW, first().status());
 	assertEquals(JobStatus.RED, second().status());
 	assertEquals(JobStatus.BLUE, third().status());
+	assertEquals(JobStatus.YELLOW, job(3).status());
+	assertEquals(JobStatus.RED, job(4).status());
+	assertEquals(JobStatus.BLUE, job(5).status());
     }
 
-    Job third() {
-	return status.jobs().get(2);
+    @Test
+    public void running() throws Exception {
+	assertFalse(first().isRunning());
+	assertTrue(job(3).isRunning());
     }
 
     Job first() {
-	return status.jobs().get(0);
+	return job(0);
     }
 
     Job second() {
-	return status.jobs().get(1);
+	return job(1);
+    }
+
+    Job third() {
+	return job(2);
+    }
+
+    Job job(int index) {
+	return status.jobs().get(index);
     }
 
 }

@@ -69,9 +69,14 @@ public class Status {
 	    final Node jobElement = (Node) jobElements.get(index);
 	    job.name = document.selectSingleNode(
 		    "//hudson/job[" + (index + 1) + "]/name").getText();
-	    job.status = JobStatus.valueOf(document.selectSingleNode(
+	    final String upperCaseColor = document.selectSingleNode(
 				    "//hudson/job[" + (index + 1) + "]/color")
-			    .getText().toUpperCase());
+			    .getText().toUpperCase();
+	    final String[] parts = upperCaseColor.split("_");
+	    final String colorValue = parts[0];
+	    job.status = JobStatus.valueOf(colorValue);
+	    if (parts.length > 1)
+		job.running = parts[1].equals("ANIME");
 	    jobs.add(job);
 	}
     }

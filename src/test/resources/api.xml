@@ -20,6 +20,21 @@
 		<url>http://dhiller-jenkins:8080/job/Third_Job/</url>
 		<color>blue</color>
 	</job>
+	<job>
+		<name>Fourth_Job</name>
+		<url>http://dhiller-jenkins:8080/job/Fourth_Job/</url>
+		<color>yellow_anime</color>
+	</job>
+	<job>
+		<name>Fifth_Job</name>
+		<url>http://dhiller-jenkins:8080/job/Fifth_Job/</url>
+		<color>red_anime</color>
+	</job>
+	<job>
+		<name>Sixth_Job</name>
+		<url>http://dhiller-jenkins:8080/job/Sixth_Job/</url>
+		<color>blue_anime</color>
+	</job>
 	<overallLoad></overallLoad>
 	<primaryView>
 		<name>Alle</name>
