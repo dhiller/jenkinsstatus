@@ -40,6 +40,8 @@ import eu.hansolo.steelseries.tools.LedColor;
 
 final class StatusPanel extends JPanel {
 
+    public static final String JOB_NAME = "jobName";
+
     {
 	setBackground(background());
 	setLayout(new GridBagLayout());
@@ -59,6 +61,7 @@ final class StatusPanel extends JPanel {
 	    addStatusLed(job, LedColor.YELLOW, JobStatus.YELLOW, row, 1);
 	    addStatusLed(job, LedColor.GREEN, JobStatus.BLUE, row, 0);
 	    final JLabel jobName = new JLabel(job.name());
+	    jobName.setName(JOB_NAME);
 	    jobName.setForeground(Color.lightGray);
 	    jobName.setFont(jobName.getFont().deriveFont(20.0f)
 		    .deriveFont(Font.BOLD));

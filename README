@@ -1,0 +1,52 @@
+Jenkins Status Monitor
+======================
+
+Copyright
+---------
+
+Copyright (c) 2012, dhiller, http://www.dhiller.de Daniel Hiller, Warendorfer Str. 47, 48231 Warendorf, NRW,
+ * Germany
+ 
+For licencing please see the file "BSD COPYRIGHT NOTICE". For the libraries used see the section 
+below.
+
+
+Contact
+-------
+
+ - mail to dhiller{at}gmx.de or
+ - twitter me at @dhill3r
+
+
+Aim
+---
+
+Create a visually appealing status monitor for a jenkins server using Java that can be started via JNLP
+
+
+Sketch
+------
+
+ - Displays all jobs of a jenkins server, each one in a new line
+ - Each line consists of
+   - three leds (green, yellow, red), of which 
+     - only one is switched on according to the jenkins status
+     - if a job is running the led that has been on last is blinking
+   - a label with the job name
+   - a button to expand the panel for job details
+     - TODO
+    
+
+Used libraries
+--------------
+
+Note: All libraries are used in the hope that they are free to use. If anything is not free to use, please contact me 
+asap.
+ 
+ - SteelSeries (@hansolo_)
+ - JDom (only to build the prototype, will be removed later)
+ - mockito
+ - fest-swing
+ - TestNG
+ 
+For further information on required libraries please see pom.xml 
