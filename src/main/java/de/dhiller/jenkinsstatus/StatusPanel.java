@@ -88,7 +88,8 @@ final class StatusPanel extends JPanel {
 	statusLed.setPreferredSize(new Dimension(25, 25));
 	statusLed.setLedColor(ledColor);
 	statusLed.setLedOn(job.status() == statusToSwitchOn);
-	statusLed.setLedBlinking(job.isRunning());
+	statusLed.setLedBlinking(job.isRunning()
+		&& job.status() == statusToSwitchOn);
 	add(statusLed, newLedConstraints(row, column));
     }
 

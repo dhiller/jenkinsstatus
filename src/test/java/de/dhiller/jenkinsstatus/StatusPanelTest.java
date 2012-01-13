@@ -48,6 +48,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import de.dhiller.ci.jenkins.Job;
+import de.dhiller.ci.jenkins.JobStatus;
 import de.dhiller.ci.jenkins.Status;
 import eu.hansolo.steelseries.extras.Led;
 
@@ -60,6 +61,9 @@ public class StatusPanelTest {
     }
 
     private static final String GREEN_LED_NAME = "green";
+    private static final String YELLOW_LED_NAME = "yellow";
+    private static final String RED_LED_NAME = "red";
+
     JFrame f;
     StatusPanel statusPanel;
     private FrameFixture frameFixture;
@@ -107,14 +111,59 @@ public class StatusPanelTest {
 
     @Test
     public void labelText() throws Exception {
-	setJob();
+	setJob(JobStatus.RED, false);
 	assertEquals("Job 1", jobLabel().text());
     }
 
     @Test
-    public void greenLed() throws Exception {
-	setJob();
-	assertLedOn(false, ledFixture(GREEN_LED_NAME));
+    public void greenJob() throws Exception {
+	setJob(JobStatus.BLUE, false);
+	assertLedOn(true, GREEN_LED_NAME);
+	assertLedOn(false, YELLOW_LED_NAME);
+	assertLedOn(false, RED_LED_NAME);
+    }
+
+    @Test
+    public void yellowLed() throws Exception {
+	setJob(JobStatus.YELLOW, false);
+	assertLedOn(false, GREEN_LED_NAME);
+	assertLedOn(true, YELLOW_LED_NAME);
+	assertLedOn(false, RED_LED_NAME);
+    }
+
+    @Test
+    public void redLed() throws Exception {
+	setJob(JobStatus.RED, false);
+	assertLedOn(false, GREEN_LED_NAME);
+	assertLedOn(false, YELLOW_LED_NAME);
+	assertLedOn(true, RED_LED_NAME);
+    }
+
+    @Test
+    public void jobRunning() throws Exception {
+	setJob(JobStatus.RED, true);
+	assertLedOn(false, GREEN_LED_NAME);
+	assertLedOn(false, YELLOW_LED_NAME);
+	assertLedOn(true, RED_LED_NAME);
+	assertLedBlinking(false, GREEN_LED_NAME);
+	assertLedBlinking(false, YELLOW_LED_NAME);
+	assertLedBlinking(true, RED_LED_NAME);
+    }
+
+    void assertLedOn(final boolean expected, final String ledName) {
+	assertLedOn(expected, ledFixture(ledName));
+    }
+
+    void assertLedBlinking(final boolean expected, final String ledName) {
+	assertEquals(Boolean.valueOf(expected),
+		GuiActionRunner.execute(new GuiQuery<Boolean>() {
+
+		    @Override
+		    protected Boolean executeInEDT() throws Throwable {
+			return ledFixture(ledName).component()
+				.isLedBlinking();
+		    }
+		}));
     }
 
     GenericComponentFixture<Led> ledFixture(final String name) {
@@ -139,8 +188,10 @@ public class StatusPanelTest {
 		}));
     }
 
-    void setJob() {
+    void setJob(JobStatus jobStatus2, boolean running) {
 	when(firstJob.name()).thenReturn("Job 1");
+	when(firstJob.status()).thenReturn(jobStatus2);
+	when(firstJob.isRunning()).thenReturn(running);
 	when(serverStatus.jobs()).thenReturn(Arrays.asList(firstJob));
 	updateStatus(serverStatus);
     }
