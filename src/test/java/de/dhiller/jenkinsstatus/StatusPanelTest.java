@@ -22,25 +22,20 @@
 
 package de.dhiller.jenkinsstatus;
 
-import static org.mockito.Mockito.*;
-import static org.testng.AssertJUnit.*;
+import static org.mockito.Mockito.when;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
 
-import org.fest.swing.core.Robot;
 import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.edt.GuiTask;
-import org.fest.swing.fixture.ComponentFixture;
-import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.fixture.GenericComponentFixture;
 import org.fest.swing.fixture.JLabelFixture;
 import org.fest.swing.fixture.JPanelFixture;
-import org.fest.swing.testing.FestSwingTestCaseTemplate;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.AfterMethod;
@@ -53,12 +48,6 @@ import de.dhiller.ci.jenkins.Status;
 import eu.hansolo.steelseries.extras.Led;
 
 public class StatusPanelTest {
-
-    private final class LedFixture extends GenericComponentFixture<Led> {
-	private LedFixture(Robot robot, Led target) {
-	    super(robot, target);
-	}
-    }
 
     private static final String GREEN_LED_NAME = "green";
     private static final String YELLOW_LED_NAME = "yellow";
@@ -118,74 +107,38 @@ public class StatusPanelTest {
     @Test
     public void greenJob() throws Exception {
 	setJob(JobStatus.BLUE, false);
-	assertLedOn(true, GREEN_LED_NAME);
-	assertLedOn(false, YELLOW_LED_NAME);
-	assertLedOn(false, RED_LED_NAME);
+	ledFixture(GREEN_LED_NAME).requireOn();
+	ledFixture(YELLOW_LED_NAME).requireOff();
+	ledFixture(RED_LED_NAME).requireOff();
     }
 
     @Test
     public void yellowLed() throws Exception {
 	setJob(JobStatus.YELLOW, false);
-	assertLedOn(false, GREEN_LED_NAME);
-	assertLedOn(true, YELLOW_LED_NAME);
-	assertLedOn(false, RED_LED_NAME);
+	ledFixture(GREEN_LED_NAME).requireOff();
+	ledFixture(YELLOW_LED_NAME).requireOn();
+	ledFixture(RED_LED_NAME).requireOff();
     }
 
     @Test
     public void redLed() throws Exception {
 	setJob(JobStatus.RED, false);
-	assertLedOn(false, GREEN_LED_NAME);
-	assertLedOn(false, YELLOW_LED_NAME);
-	assertLedOn(true, RED_LED_NAME);
+	ledFixture(GREEN_LED_NAME).requireOff();
+	ledFixture(YELLOW_LED_NAME).requireOff();
+	ledFixture(RED_LED_NAME).requireOn();
     }
 
     @Test
     public void jobRunning() throws Exception {
 	setJob(JobStatus.RED, true);
-	assertLedOn(false, GREEN_LED_NAME);
-	assertLedOn(false, YELLOW_LED_NAME);
-	assertLedOn(true, RED_LED_NAME);
-	assertLedBlinking(false, GREEN_LED_NAME);
-	assertLedBlinking(false, YELLOW_LED_NAME);
-	assertLedBlinking(true, RED_LED_NAME);
+	ledFixture(GREEN_LED_NAME).requireOff().requireBlinking(false);
+	ledFixture(YELLOW_LED_NAME).requireOff().requireBlinking(false);
+	ledFixture(RED_LED_NAME).requireOn(true).requireBlinking(true);
     }
 
-    void assertLedOn(final boolean expected, final String ledName) {
-	assertLedOn(expected, ledFixture(ledName));
-    }
-
-    void assertLedBlinking(final boolean expected, final String ledName) {
-	assertEquals(Boolean.valueOf(expected),
-		GuiActionRunner.execute(new GuiQuery<Boolean>() {
-
-		    @Override
-		    protected Boolean executeInEDT() throws Throwable {
-			return ledFixture(ledName).component()
-				.isLedBlinking();
-		    }
-		}));
-    }
-
-    GenericComponentFixture<Led> ledFixture(final String name) {
-	final GenericComponentFixture<Led> ledFixture = new LedFixture(
-		frameFixture.robot, led(name));
-	return ledFixture;
-    }
-
-    Led led(final String ledName) {
-	return frameFixture.robot.finder().findByName(ledName, Led.class);
-    }
-
-    void assertLedOn(final boolean expected,
-	    final GenericComponentFixture<Led> ledFixture) {
-	assertEquals(Boolean.valueOf(expected),
-		GuiActionRunner.execute(new GuiQuery<Boolean>() {
-
-		    @Override
-		    protected Boolean executeInEDT() throws Throwable {
-			return ledFixture.component().isLedOn();
-		    }
-		}));
+    LedFixture ledFixture(final String name) {
+	return new LedFixture(frameFixture.robot, frameFixture.robot.finder()
+		.findByName(name, Led.class));
     }
 
     void setJob(JobStatus jobStatus2, boolean running) {
