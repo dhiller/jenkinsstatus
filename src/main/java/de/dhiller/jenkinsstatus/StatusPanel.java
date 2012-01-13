@@ -83,6 +83,7 @@ final class StatusPanel extends JPanel {
     void addStatusLed(Job job, final LedColor ledColor,
 	    final JobStatus statusToSwitchOn, int row, final int column) {
 	final Led statusLed = new Led();
+	statusLed.setName(ledColor.name().toLowerCase());
 	statusLed.setMinimumSize(new Dimension(25, 25));
 	statusLed.setPreferredSize(new Dimension(25, 25));
 	statusLed.setLedColor(ledColor);

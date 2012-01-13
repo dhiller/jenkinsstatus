@@ -32,9 +32,12 @@ Sketch
    - three leds (green, yellow, red), of which 
      - only one is switched on according to the jenkins status
      - if a job is running the led that has been on last is blinking
-   - a label with the job name
+   - a label with the job name (linked to the job webpage)
    - a button to expand the panel for job details
-     - TODO
+     - Test delta ((number of tests of current build) - ((number of tests of last build))
+     - Success rate (100% green, < 100% red)
+     - Health reports
+     - (later) Maven submodules?
     
 
 Used libraries

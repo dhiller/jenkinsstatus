@@ -22,34 +22,74 @@
 
 package de.dhiller.jenkinsstatus;
 
+import static org.mockito.Mockito.*;
 import static org.testng.AssertJUnit.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 
+import org.fest.swing.core.Robot;
+import org.fest.swing.edt.GuiActionRunner;
+import org.fest.swing.edt.GuiQuery;
+import org.fest.swing.edt.GuiTask;
 import org.fest.swing.fixture.ComponentFixture;
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.GenericComponentFixture;
 import org.fest.swing.fixture.JLabelFixture;
 import org.fest.swing.fixture.JPanelFixture;
 import org.fest.swing.testing.FestSwingTestCaseTemplate;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import de.dhiller.ci.jenkins.Job;
+import de.dhiller.ci.jenkins.Status;
+import eu.hansolo.steelseries.extras.Led;
+
 public class StatusPanelTest {
 
+    private final class LedFixture extends GenericComponentFixture<Led> {
+	private LedFixture(Robot robot, Led target) {
+	    super(robot, target);
+	}
+    }
+
+    private static final String GREEN_LED_NAME = "green";
     JFrame f;
     StatusPanel statusPanel;
+    private FrameFixture frameFixture;
+    private JPanelFixture jPanelFixture;
+
+    @Mock
+    Status serverStatus;
+
+    @Mock
+    Job firstJob;
+
+    @BeforeMethod
+    public void initMocks() {
+	MockitoAnnotations.initMocks(this);
+    }
 
     @BeforeMethod
     public void init() throws InterruptedException, InvocationTargetException {
-	java.awt.EventQueue.invokeAndWait(new Runnable() {
-	    public void run() {
-		f = new JFrame();
+	final JFrame f = GuiActionRunner.execute(new GuiQuery<JFrame>() {
+
+	    @Override
+	    protected JFrame executeInEDT() throws Throwable {
+		final JFrame f = new JFrame();
 		statusPanel = new StatusPanel();
-		f.add(statusPanel);
+		f.getContentPane().add(statusPanel);
+		f.setVisible(true);
+		frameFixture = new FrameFixture(f);
+		jPanelFixture = new JPanelFixture(frameFixture.robot,
+			statusPanel);
+		return f;
 	    }
 	});
     }
@@ -57,21 +97,67 @@ public class StatusPanelTest {
     @AfterMethod
     public void cleanUp() throws InterruptedException,
 	    InvocationTargetException {
-	java.awt.EventQueue.invokeAndWait(new Runnable() {
-	    public void run() {
-		f.dispose();
+	frameFixture.cleanUp();
+    }
+
+    @Test(enabled = false)
+    public void noJobs() throws Exception {
+	// TODO: Search for other components
+    }
+
+    @Test
+    public void labelText() throws Exception {
+	setJob();
+	assertEquals("Job 1", jobLabel().text());
+    }
+
+    @Test
+    public void greenLed() throws Exception {
+	setJob();
+	assertLedOn(false, ledFixture(GREEN_LED_NAME));
+    }
+
+    GenericComponentFixture<Led> ledFixture(final String name) {
+	final GenericComponentFixture<Led> ledFixture = new LedFixture(
+		frameFixture.robot, led(name));
+	return ledFixture;
+    }
+
+    Led led(final String ledName) {
+	return frameFixture.robot.finder().findByName(ledName, Led.class);
+    }
+
+    void assertLedOn(final boolean expected,
+	    final GenericComponentFixture<Led> ledFixture) {
+	assertEquals(Boolean.valueOf(expected),
+		GuiActionRunner.execute(new GuiQuery<Boolean>() {
+
+		    @Override
+		    protected Boolean executeInEDT() throws Throwable {
+			return ledFixture.component().isLedOn();
+		    }
+		}));
+    }
+
+    void setJob() {
+	when(firstJob.name()).thenReturn("Job 1");
+	when(serverStatus.jobs()).thenReturn(Arrays.asList(firstJob));
+	updateStatus(serverStatus);
+    }
+
+    void updateStatus(final Status serverStatus) {
+	GuiActionRunner.execute(new GuiTask() {
+
+	    @Override
+	    protected void executeInEDT() throws Throwable {
+		statusPanel.updateStatus(serverStatus);
+		frameFixture.component().pack();
 	    }
 	});
     }
 
-    @Test
-    public void creation() throws Exception {
-	final FrameFixture frameFixture = new FrameFixture(f);
-	final JPanelFixture jPanelFixture = new JPanelFixture(
-		frameFixture.robot, statusPanel);
-	final JLabelFixture label = jPanelFixture.label(StatusPanel.JOB_NAME);
-	assertNotNull(label);
-	assertEquals("Job 1", label.text());
+    JLabelFixture jobLabel() {
+	return jPanelFixture.label(StatusPanel.JOB_NAME);
     }
 
 }

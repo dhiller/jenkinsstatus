@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>eu.hansolo</groupId>
 			<artifactId>SteelSeries</artifactId>
-			<version>3.9.9</version>
+			<version>3.9.14</version>
 		</dependency>
 		
 		<!-- XML -->
