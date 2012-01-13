@@ -45,11 +45,14 @@ Used libraries
 
 Note: All libraries are used in the hope that they are free to use. If anything is not free to use, please contact me 
 asap.
- 
+
+Requirements 
  - SteelSeries (@hansolo_)
  - JDom (only to build the prototype, will be removed later)
+ 
+Testing:
+ - TestNG
  - mockito
  - fest-swing
- - TestNG
  
 For further information on required libraries please see pom.xml 
