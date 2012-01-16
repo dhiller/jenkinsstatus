@@ -142,7 +142,7 @@ public class StatusPanelTest {
 
     @Test
     public void blueStatusSwitchesLightbulbOff() throws Exception {
-	setJob(JobStatus.DISABLED, false);
+	setJob(JobStatus.BLUE, false);
 	lightBulb().requireOn(true);
     }
 

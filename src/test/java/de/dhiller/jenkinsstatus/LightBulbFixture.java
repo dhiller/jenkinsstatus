@@ -50,7 +50,7 @@ public class LightBulbFixture extends GenericComponentFixture<LightBulb> {
     }
 
     void requireOn(final boolean expected) {
-        StatusPanelTest.assertEquals(expected, on());
+	assertEquals(expected, on());
     }
 
     void requireOff() {

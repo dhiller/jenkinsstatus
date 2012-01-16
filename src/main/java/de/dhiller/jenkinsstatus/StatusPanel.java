@@ -23,6 +23,7 @@
 package de.dhiller.jenkinsstatus;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -36,10 +37,13 @@ import de.dhiller.ci.jenkins.Job;
 import de.dhiller.ci.jenkins.JobStatus;
 import de.dhiller.ci.jenkins.Status;
 import eu.hansolo.steelseries.extras.Led;
+import eu.hansolo.steelseries.extras.LightBulb;
 import eu.hansolo.steelseries.tools.LedColor;
 
 final class StatusPanel extends JPanel {
 
+    private static final Dimension MINIMUM_SIZE = new Dimension(25, 25);
+    private static final Dimension PREFERRED_SIZE = new Dimension(25, 25);
     public static final String JOB_NAME = "jobName";
     public static final String LIGHTBULB = "lightbulb";
 
@@ -58,20 +62,27 @@ final class StatusPanel extends JPanel {
 	removeAll();
 	int row = 0;
 	for (Job job : serverStatus.jobs()) {
-	    addStatusLed(job, LedColor.RED, JobStatus.RED, row, 2);
-	    addStatusLed(job, LedColor.YELLOW, JobStatus.YELLOW, row, 1);
-	    addStatusLed(job, LedColor.GREEN, JobStatus.BLUE, row, 0);
+	    final LightBulb comp = new LightBulb();
+	    comp.setName(LIGHTBULB);
+	    comp.setOn(job.status() != JobStatus.DISABLED);
+	    setSizes(comp);
+	    add(comp, new GridBagConstraints(0, row, 1, 1, 0, 0,
+		    GridBagConstraints.WEST, GridBagConstraints.NONE, INSETS,
+		    0, 0));
+	    addStatusLed(job, LedColor.GREEN, JobStatus.BLUE, row, 1);
+	    addStatusLed(job, LedColor.YELLOW, JobStatus.YELLOW, row, 2);
+	    addStatusLed(job, LedColor.RED, JobStatus.RED, row, 3);
 	    final JLabel jobName = new JLabel(job.name());
 	    jobName.setName(JOB_NAME);
 	    jobName.setForeground(Color.lightGray);
 	    jobName.setFont(jobName.getFont().deriveFont(20.0f)
 		    .deriveFont(Font.BOLD));
-	    add(jobName, new GridBagConstraints(3, row, 1, 1, 0, 0,
+	    add(jobName, new GridBagConstraints(4, row, 1, 1, 0, 0,
 		    GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
 		    INSETS, 0, 0));
 	    row++;
 	}
-	add(newFillPanel(), new GridBagConstraints(0, row, 4, 1, 0, 0,
+	add(newFillPanel(), new GridBagConstraints(0, row, 5, 1, 0, 0,
 		GridBagConstraints.WEST, GridBagConstraints.BOTH, INSETS, 0, 0));
     }
 
@@ -85,13 +96,17 @@ final class StatusPanel extends JPanel {
 	    final JobStatus statusToSwitchOn, int row, final int column) {
 	final Led statusLed = new Led();
 	statusLed.setName(ledColor.name().toLowerCase());
-	statusLed.setMinimumSize(new Dimension(25, 25));
-	statusLed.setPreferredSize(new Dimension(25, 25));
+	setSizes(statusLed);
 	statusLed.setLedColor(ledColor);
 	statusLed.setLedOn(job.status() == statusToSwitchOn);
 	statusLed.setLedBlinking(job.isRunning()
 		&& job.status() == statusToSwitchOn);
 	add(statusLed, newLedConstraints(row, column));
+    }
+
+    void setSizes(Component statusLed) {
+	statusLed.setMinimumSize(MINIMUM_SIZE);
+	statusLed.setPreferredSize(PREFERRED_SIZE);
     }
 
     GridBagConstraints newLedConstraints(int row, int column) {
