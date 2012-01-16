@@ -49,6 +49,7 @@ import eu.hansolo.steelseries.extras.Led;
 
 public class StatusPanelTest {
 
+    private static final String JOB_NAME = "Job 1";
     JFrame f;
     StatusPanel statusPanel;
     private FrameFixture frameFixture;
@@ -97,7 +98,7 @@ public class StatusPanelTest {
     @Test
     public void labelText() throws Exception {
 	setJob(JobStatus.RED, false);
-	assertEquals("Job 1", jobLabel().text());
+	assertEquals(JOB_NAME, jobLabel().text());
     }
 
     @Test
@@ -150,7 +151,7 @@ public class StatusPanelTest {
     }
 
     void setJob(JobStatus jobStatus2, boolean running) {
-	when(firstJob.name()).thenReturn("Job 1");
+	when(firstJob.name()).thenReturn(JOB_NAME);
 	when(firstJob.status()).thenReturn(jobStatus2);
 	when(firstJob.isRunning()).thenReturn(running);
 	when(serverStatus.jobs()).thenReturn(Arrays.asList(firstJob));
