@@ -74,4 +74,12 @@ final class LedFixture extends GenericComponentFixture<Led> {
         requireOn(true);
 	return this;
     }
+
+    void requireNonBlinking() {
+        requireBlinking(false);
+    }
+
+    void requireBlinking() {
+        requireBlinking(true);
+    }
 }

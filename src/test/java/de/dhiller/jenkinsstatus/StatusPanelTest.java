@@ -49,10 +49,6 @@ import eu.hansolo.steelseries.extras.Led;
 
 public class StatusPanelTest {
 
-    private static final String GREEN_LED_NAME = "green";
-    private static final String YELLOW_LED_NAME = "yellow";
-    private static final String RED_LED_NAME = "red";
-
     JFrame f;
     StatusPanel statusPanel;
     private FrameFixture frameFixture;
@@ -71,7 +67,7 @@ public class StatusPanelTest {
 
     @BeforeMethod
     public void init() throws InterruptedException, InvocationTargetException {
-	final JFrame f = GuiActionRunner.execute(new GuiQuery<JFrame>() {
+	GuiActionRunner.execute(new GuiQuery<JFrame>() {
 
 	    @Override
 	    protected JFrame executeInEDT() throws Throwable {
@@ -107,36 +103,48 @@ public class StatusPanelTest {
     @Test
     public void greenJob() throws Exception {
 	setJob(JobStatus.BLUE, false);
-	ledFixture(GREEN_LED_NAME).requireOn();
-	ledFixture(YELLOW_LED_NAME).requireOff();
-	ledFixture(RED_LED_NAME).requireOff();
+	greenLed().requireOn();
+	yellowLed().requireOff();
+	redLed().requireOff();
     }
 
     @Test
-    public void yellowLed() throws Exception {
+    public void yellowJob() throws Exception {
 	setJob(JobStatus.YELLOW, false);
-	ledFixture(GREEN_LED_NAME).requireOff();
-	ledFixture(YELLOW_LED_NAME).requireOn();
-	ledFixture(RED_LED_NAME).requireOff();
+	greenLed().requireOff();
+	yellowLed().requireOn();
+	redLed().requireOff();
     }
 
     @Test
-    public void redLed() throws Exception {
+    public void redJob() throws Exception {
 	setJob(JobStatus.RED, false);
-	ledFixture(GREEN_LED_NAME).requireOff();
-	ledFixture(YELLOW_LED_NAME).requireOff();
-	ledFixture(RED_LED_NAME).requireOn();
+	greenLed().requireOff();
+	yellowLed().requireOff();
+	redLed().requireOn();
     }
 
     @Test
     public void jobRunning() throws Exception {
 	setJob(JobStatus.RED, true);
-	ledFixture(GREEN_LED_NAME).requireOff().requireBlinking(false);
-	ledFixture(YELLOW_LED_NAME).requireOff().requireBlinking(false);
-	ledFixture(RED_LED_NAME).requireOn(true).requireBlinking(true);
+	greenLed().requireOff().requireNonBlinking();
+	yellowLed().requireOff().requireBlinking(false);
+	redLed().requireOn(true).requireBlinking();
     }
 
-    LedFixture ledFixture(final String name) {
+    LedFixture yellowLed() {
+	return led("yellow");
+    }
+
+    LedFixture greenLed() {
+	return led("green");
+    }
+
+    LedFixture redLed() {
+	return led("red");
+    }
+
+    LedFixture led(final String name) {
 	return new LedFixture(frameFixture.robot, frameFixture.robot.finder()
 		.findByName(name, Led.class));
     }
