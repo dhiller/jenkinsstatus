@@ -36,6 +36,26 @@ final class LedFixture extends GenericComponentFixture<Led> {
         super(robot, target);
     }
 
+    LedFixture requireOff() {
+	requireOn(false);
+	return this;
+    }
+
+    LedFixture requireOn() {
+	requireOn(true);
+	return this;
+    }
+
+    LedFixture requireNonBlinking() {
+	requireBlinking(false);
+	return this;
+    }
+
+    LedFixture requireBlinking() {
+	requireBlinking(true);
+	return this;
+    }
+
     LedFixture requireBlinking(final boolean expected) {
         assertEquals(expected, blinking());
 	return this;
@@ -63,23 +83,5 @@ final class LedFixture extends GenericComponentFixture<Led> {
     	    return component().isLedOn();
     	}
         });
-    }
-
-    LedFixture requireOff() {
-        requireOn(false);
-	return this;
-    }
-
-    LedFixture requireOn() {
-        requireOn(true);
-	return this;
-    }
-
-    void requireNonBlinking() {
-        requireBlinking(false);
-    }
-
-    void requireBlinking() {
-        requireBlinking(true);
     }
 }
