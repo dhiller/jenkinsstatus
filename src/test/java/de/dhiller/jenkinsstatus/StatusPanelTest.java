@@ -96,41 +96,49 @@ public class StatusPanelTest {
     }
 
     @Test
-    public void labelText() throws Exception {
+    public void jobName() throws Exception {
 	setJob(JobStatus.RED, false);
 	assertEquals(JOB_NAME, jobLabel().text());
     }
 
     @Test
-    public void greenJob() throws Exception {
+    public void green() throws Exception {
 	setJob(JobStatus.BLUE, false);
-	greenLed().requireOn();
-	yellowLed().requireOff();
-	redLed().requireOff();
+	greenLed().requireOn().requireNonBlinking();
+	yellowLed().requireOff().requireNonBlinking();
+	redLed().requireOff().requireNonBlinking();
     }
 
     @Test
-    public void yellowJob() throws Exception {
+    public void yellow() throws Exception {
 	setJob(JobStatus.YELLOW, false);
-	greenLed().requireOff();
-	yellowLed().requireOn();
-	redLed().requireOff();
+	greenLed().requireOff().requireNonBlinking();
+	yellowLed().requireOn().requireNonBlinking();
+	redLed().requireOff().requireNonBlinking();
     }
 
     @Test
-    public void redJob() throws Exception {
+    public void red() throws Exception {
 	setJob(JobStatus.RED, false);
-	greenLed().requireOff();
-	yellowLed().requireOff();
-	redLed().requireOn();
+	greenLed().requireOff().requireNonBlinking();
+	yellowLed().requireOff().requireNonBlinking();
+	redLed().requireOn().requireNonBlinking();
     }
 
     @Test
-    public void jobRunning() throws Exception {
+    public void running() throws Exception {
 	setJob(JobStatus.RED, true);
 	greenLed().requireOff().requireNonBlinking();
-	yellowLed().requireOff().requireBlinking(false);
-	redLed().requireOn(true).requireBlinking();
+	yellowLed().requireOff().requireNonBlinking();
+	redLed().requireOn().requireBlinking();
+    }
+
+    @Test
+    public void notBuilt() throws Exception {
+	setJob(JobStatus.NOTBUILT, true);
+	greenLed().requireOff().requireNonBlinking();
+	yellowLed().requireOff().requireNonBlinking();
+	redLed().requireOff().requireNonBlinking();
     }
 
     LedFixture yellowLed() {
