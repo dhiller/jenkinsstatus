@@ -46,6 +46,7 @@ import de.dhiller.ci.jenkins.Job;
 import de.dhiller.ci.jenkins.JobStatus;
 import de.dhiller.ci.jenkins.Status;
 import eu.hansolo.steelseries.extras.Led;
+import eu.hansolo.steelseries.extras.LightBulb;
 
 public class StatusPanelTest {
 
@@ -102,7 +103,7 @@ public class StatusPanelTest {
     }
 
     @Test
-    public void green() throws Exception {
+    public void blueStatus() throws Exception {
 	setJob(JobStatus.BLUE, false);
 	greenLed().requireOn().requireNonBlinking();
 	yellowLed().requireOff().requireNonBlinking();
@@ -110,7 +111,7 @@ public class StatusPanelTest {
     }
 
     @Test
-    public void yellow() throws Exception {
+    public void yellowStatus() throws Exception {
 	setJob(JobStatus.YELLOW, false);
 	greenLed().requireOff().requireNonBlinking();
 	yellowLed().requireOn().requireNonBlinking();
@@ -118,7 +119,7 @@ public class StatusPanelTest {
     }
 
     @Test
-    public void red() throws Exception {
+    public void redStatus() throws Exception {
 	setJob(JobStatus.RED, false);
 	greenLed().requireOff().requireNonBlinking();
 	yellowLed().requireOff().requireNonBlinking();
@@ -126,11 +127,29 @@ public class StatusPanelTest {
     }
 
     @Test
-    public void running() throws Exception {
+    public void runningAfterRedStatus() throws Exception {
 	setJob(JobStatus.RED, true);
 	greenLed().requireOff().requireNonBlinking();
 	yellowLed().requireOff().requireNonBlinking();
 	redLed().requireOn().requireBlinking();
+    }
+
+    @Test
+    public void disabledSwitchesLightbulbOff() throws Exception {
+	setJob(JobStatus.DISABLED, false);
+	lightBulb().requireOff();
+    }
+
+    @Test
+    public void blueStatusSwitchesLightbulbOff() throws Exception {
+	setJob(JobStatus.DISABLED, false);
+	lightBulb().requireOn(true);
+    }
+
+    LightBulbFixture lightBulb() {
+	return new LightBulbFixture(frameFixture.robot, frameFixture.robot
+		.finder()
+		.findByName(StatusPanel.LIGHTBULB, LightBulb.class));
     }
 
     @Test

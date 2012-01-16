@@ -22,7 +22,11 @@
 
 package de.dhiller.jenkinsstatus;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.fest.swing.core.Robot;
+import org.fest.swing.edt.GuiActionRunner;
+import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.GenericComponentFixture;
 
 import eu.hansolo.steelseries.extras.LightBulb;
@@ -31,6 +35,26 @@ public class LightBulbFixture extends GenericComponentFixture<LightBulb> {
 
     public LightBulbFixture(Robot robot, LightBulb target) {
 	super(robot, target);
+    }
+
+    boolean on() {
+        final LightBulb component = component();
+        final boolean on = GuiActionRunner.execute(new GuiQuery<Boolean>() {
+    
+            @Override
+            protected Boolean executeInEDT() throws Throwable {
+        	return component.isOn();
+            }
+        });
+        return on;
+    }
+
+    void requireOn(final boolean expected) {
+        StatusPanelTest.assertEquals(expected, on());
+    }
+
+    void requireOff() {
+        requireOn(false);
     }
 
 }

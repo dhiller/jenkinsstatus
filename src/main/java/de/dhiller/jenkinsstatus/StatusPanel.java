@@ -41,6 +41,7 @@ import eu.hansolo.steelseries.tools.LedColor;
 final class StatusPanel extends JPanel {
 
     public static final String JOB_NAME = "jobName";
+    public static final String LIGHTBULB = "lightbulb";
 
     {
 	setBackground(background());
