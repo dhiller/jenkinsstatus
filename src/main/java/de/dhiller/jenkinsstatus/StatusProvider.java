@@ -22,49 +22,8 @@
 
 package de.dhiller.jenkinsstatus;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.ExecutionException;
-import java.util.prefs.Preferences;
-
-import javax.swing.JFrame;
-import javax.swing.SwingWorker;
-
 import de.dhiller.ci.jenkins.Status;
 
-final class StatusUpdater extends
-        SwingWorker<Status, Object> {
-
-    private final Preferences preferences;
-    private final StatusPanel status;
-    private final Main frame;
-
-    StatusUpdater(Preferences preferences, StatusPanel status, Main frame) {
-        this.preferences = preferences;
-        this.status = status;
-        this.frame = frame;
-    }
-
-    @Override
-    protected Status doInBackground() throws Exception {
-	return statusProvider().provide();
-    }
-
-    protected DefaultStatusProvider statusProvider() throws URISyntaxException {
-	final URI uri = new URI(preferences.get(Constants.SERVER_URI, ""));
-	final DefaultStatusProvider defaultStatusProvider = new DefaultStatusProvider();
-	defaultStatusProvider.setUri(uri);
-	return defaultStatusProvider;
-    }
-
-    protected void done() {
-        try {
-    	status.updateStatus(get());
-        } catch (InterruptedException e) {
-    	e.printStackTrace(); // TODO
-        } catch (ExecutionException e) {
-    	e.printStackTrace(); // TODO
-        }
-        frame.pack();
-    }
+interface StatusProvider {
+    Status provide() throws Exception;
 }
