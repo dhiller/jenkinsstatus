@@ -138,12 +138,15 @@ public class StatusPanelTest {
     public void disabledSwitchesLightbulbOff() throws Exception {
 	setJob(JobStatus.DISABLED, false);
 	lightBulb().requireOff();
+	greenLed().requireOff().requireNonBlinking();
+	yellowLed().requireOff().requireNonBlinking();
+	redLed().requireOff().requireNonBlinking();
     }
 
     @Test
-    public void blueStatusSwitchesLightbulbOff() throws Exception {
+    public void blueStatusSwitchesLightbulbOn() throws Exception {
 	setJob(JobStatus.BLUE, false);
-	lightBulb().requireOn(true);
+	lightBulb().requireOn();
     }
 
     LightBulbFixture lightBulb() {

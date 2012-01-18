@@ -57,4 +57,8 @@ public class LightBulbFixture extends GenericComponentFixture<LightBulb> {
         requireOn(false);
     }
 
+    void requireOn() {
+        requireOn(true);
+    }
+
 }
