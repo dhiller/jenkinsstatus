@@ -39,6 +39,8 @@ import org.jdom.JDOMException;
 
 public class Main extends JFrame {
 
+    private StatusProvider statusProvider = new DefaultStatusProvider();
+
     private final class EditPreferences extends AbstractAction {
 	private EditPreferences() {
 	    super("...");
@@ -68,7 +70,9 @@ public class Main extends JFrame {
     }
 
     void initStatus() {
-	new StatusUpdater(preferences, status, Main.this).execute();
+	final StatusUpdater statusUpdater = new StatusUpdater(preferences, status, Main.this);
+	statusUpdater.setStatusProvider(statusProvider);
+	statusUpdater.execute();
     }
 
     public static void main(String[] args) {
@@ -78,6 +82,14 @@ public class Main extends JFrame {
 		new Main().setVisible(true);
 	    }
 	});
+    }
+
+    StatusProvider getStatusProvider() {
+	return statusProvider;
+    }
+
+    void setStatusProvider(StatusProvider statusProvider) {
+	this.statusProvider = statusProvider;
     }
 
 }

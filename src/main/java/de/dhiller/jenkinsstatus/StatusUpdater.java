@@ -32,17 +32,17 @@ import javax.swing.SwingWorker;
 
 import de.dhiller.ci.jenkins.Status;
 
-final class StatusUpdater extends
-        SwingWorker<Status, Object> {
+final class StatusUpdater extends SwingWorker<Status, Object> {
 
     private final Preferences preferences;
     private final StatusPanel status;
     private final Main frame;
+    private StatusProvider statusProvider = new DefaultStatusProvider();
 
     StatusUpdater(Preferences preferences, StatusPanel status, Main frame) {
-        this.preferences = preferences;
-        this.status = status;
-        this.frame = frame;
+	this.preferences = preferences;
+	this.status = status;
+	this.frame = frame;
     }
 
     @Override
@@ -50,21 +50,32 @@ final class StatusUpdater extends
 	return statusProvider().provide();
     }
 
-    protected DefaultStatusProvider statusProvider() throws URISyntaxException {
+    protected StatusProvider statusProvider() throws URISyntaxException {
 	final URI uri = new URI(preferences.get(Constants.SERVER_URI, ""));
-	final DefaultStatusProvider defaultStatusProvider = new DefaultStatusProvider();
-	defaultStatusProvider.setUri(uri);
-	return defaultStatusProvider;
+	statusProvider.setUri(uri);
+	return statusProvider;
     }
 
     protected void done() {
-        try {
-    	status.updateStatus(get());
-        } catch (InterruptedException e) {
-    	e.printStackTrace(); // TODO
-        } catch (ExecutionException e) {
-    	e.printStackTrace(); // TODO
-        }
-        frame.pack();
+	try {
+	    status.updateStatus(get());
+	} catch (InterruptedException e) {
+	    e.printStackTrace(); // TODO
+	} catch (ExecutionException e) {
+	    e.printStackTrace(); // TODO
+	}
+	frame.pack();
     }
+
+    StatusProvider getStatusProvider() {
+	return statusProvider;
+    }
+
+    void setStatusProvider(StatusProvider statusProvider) {
+	if (statusProvider == null) {
+	    throw new IllegalArgumentException("statusProvider is null!"); //$NON-NLS-1$
+	}
+	this.statusProvider = statusProvider;
+    }
+
 }

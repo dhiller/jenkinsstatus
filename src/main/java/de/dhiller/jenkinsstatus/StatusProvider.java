@@ -22,8 +22,20 @@
 
 package de.dhiller.jenkinsstatus;
 
+import java.net.URI;
+
 import de.dhiller.ci.jenkins.Status;
 
-interface StatusProvider {
-    Status provide() throws Exception;
+abstract class StatusProvider {
+    private URI uri;
+
+    abstract Status provide() throws Exception;
+
+    void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    protected URI getUri() {
+        return uri;
+    }
 }

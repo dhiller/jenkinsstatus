@@ -22,27 +22,16 @@
 
 package de.dhiller.jenkinsstatus;
 
-import java.net.URI;
 
 import de.dhiller.ci.jenkins.Status;
 
-class DefaultStatusProvider implements StatusProvider {
-
-    private URI uri;
+class DefaultStatusProvider extends StatusProvider {
 
     @Override
     public Status provide() throws Exception {
         final Status serverStatus = new Status();
         serverStatus.parse(getUri().toASCIIString());
         return serverStatus;
-    }
-
-    void setUri(URI uri) {
-        this.uri = uri;
-    }
-
-    URI getUri() {
-        return uri;
     }
 
 }
