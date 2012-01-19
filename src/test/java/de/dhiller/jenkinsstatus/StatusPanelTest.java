@@ -22,11 +22,12 @@
 
 package de.dhiller.jenkinsstatus;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -50,22 +51,11 @@ import eu.hansolo.steelseries.extras.LightBulb;
 
 public class StatusPanelTest {
 
-    private static final String JOB_NAME = "Job 1";
+    static final String JOB_NAME = "Job 1";
     JFrame f;
     StatusPanel statusPanel;
     private FrameFixture frameFixture;
     private JPanelFixture jPanelFixture;
-
-    @Mock
-    Status serverStatus;
-
-    @Mock
-    Job firstJob;
-
-    @BeforeMethod
-    public void initMocks() {
-	MockitoAnnotations.initMocks(this);
-    }
 
     @BeforeMethod
     public void init() throws InterruptedException, InvocationTargetException {
@@ -151,8 +141,7 @@ public class StatusPanelTest {
 
     LightBulbFixture lightBulb() {
 	return new LightBulbFixture(frameFixture.robot, frameFixture.robot
-		.finder()
-		.findByName(StatusPanel.LIGHTBULB, LightBulb.class));
+		.finder().findByName(StatusPanel.LIGHTBULB, LightBulb.class));
     }
 
     @Test
@@ -181,11 +170,8 @@ public class StatusPanelTest {
     }
 
     void setJob(JobStatus jobStatus2, boolean running) {
-	when(firstJob.name()).thenReturn(JOB_NAME);
-	when(firstJob.status()).thenReturn(jobStatus2);
-	when(firstJob.isRunning()).thenReturn(running);
-	when(serverStatus.jobs()).thenReturn(Arrays.asList(firstJob));
-	updateStatus(serverStatus);
+	updateStatus(MockFactory.newStatus(MockFactory.newJob(jobStatus2,
+		running)));
     }
 
     void updateStatus(final Status serverStatus) {

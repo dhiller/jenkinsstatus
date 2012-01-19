@@ -27,6 +27,7 @@ import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -56,17 +57,30 @@ public class Main extends JFrame {
 
     private final StatusPanel status = new StatusPanel();
 
-    private Main() {
+    private final Timer statusUpdateTimer = new Timer(1000, new ActionListener() {
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+    	initStatus();
+        }
+    });
+
+    Main() {
+	this(false);
+    }
+
+    Main(boolean disableTimer) {
 	super("Jenkins Status");
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.getContentPane().setLayout(new BorderLayout());
 	this.getContentPane().add(status);
-	initStatus();
 	final JPanel buttons = new JPanel();
 	buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	buttons.add(new JButton(new EditPreferences()));
 	this.getContentPane().add(buttons, BorderLayout.SOUTH);
 	pack();
+	if (!disableTimer)
+	    statusUpdateTimer.start();
     }
 
     void initStatus() {
