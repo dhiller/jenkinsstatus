@@ -57,7 +57,8 @@ public class Main extends JFrame {
 
     private final StatusPanel status = new StatusPanel();
 
-    private final Timer statusUpdateTimer = new Timer(1000, new ActionListener() {
+    private final Timer statusUpdateTimer = new Timer(1000,
+	    new ActionListener() {
         
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -73,6 +74,7 @@ public class Main extends JFrame {
 	super("Jenkins Status");
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.getContentPane().setLayout(new BorderLayout());
+	status.setName("statusPanel");
 	this.getContentPane().add(status);
 	final JPanel buttons = new JPanel();
 	buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -83,10 +85,11 @@ public class Main extends JFrame {
 	    statusUpdateTimer.start();
     }
 
-    void initStatus() {
+    StatusUpdater initStatus() {
 	final StatusUpdater statusUpdater = new StatusUpdater(preferences, status, Main.this);
 	statusUpdater.setStatusProvider(statusProvider);
 	statusUpdater.execute();
+	return statusUpdater;
     }
 
     public static void main(String[] args) {

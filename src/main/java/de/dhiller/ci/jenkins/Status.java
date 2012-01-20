@@ -57,27 +57,62 @@ public class Status {
 	return serverName;
     }
 
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((jobs == null) ? 0 : jobs.hashCode());
+	result = prime * result
+		+ ((serverName == null) ? 0 : serverName.hashCode());
+	return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	Status other = (Status) obj;
+	if (jobs == null) {
+	    if (other.jobs != null)
+		return false;
+	} else if (!jobs.equals(other.jobs))
+	    return false;
+	if (serverName == null) {
+	    if (other.serverName != null)
+		return false;
+	} else if (!serverName.equals(other.serverName))
+	    return false;
+	return true;
+    }
+
+    public List<Job> jobs() {
+	return jobs;
+    }
+
     void parse(final InputStream stream) throws Exception {
 	SAXReader reader = new SAXReader();
 	Document document = reader.read(stream);
-	serverName = description(document)
-		.getText();
-	jobs = new ArrayList<Job>();
+	setServerName(description(document).getText());
+	setJobs(new ArrayList<Job>());
 	final List<?> jobElements = document.selectNodes("//hudson/job");
 	for (int index = 0, n = jobElements.size(); index < n; index++) {
 	    final Job job = new Job();
 	    final Node jobElement = (Node) jobElements.get(index);
 	    job.name = document.selectSingleNode(
 		    "//hudson/job[" + (index + 1) + "]/name").getText();
-	    final String upperCaseColor = document.selectSingleNode(
-				    "//hudson/job[" + (index + 1) + "]/color")
-			    .getText().toUpperCase();
+	    final String upperCaseColor = document
+		    .selectSingleNode("//hudson/job[" + (index + 1) + "]/color")
+		    .getText().toUpperCase();
 	    final String[] parts = upperCaseColor.split("_");
 	    final String colorValue = parts[0];
 	    job.status = JobStatus.valueOf(colorValue);
 	    if (parts.length > 1)
 		job.running = parts[1].equals("ANIME");
-	    jobs.add(job);
+	    jobs().add(job);
 	}
     }
 
@@ -89,8 +124,12 @@ public class Status {
 	return document.selectSingleNode("//hudson/nodeName");
     }
 
-    public List<Job> jobs() {
-	return jobs;
+    void setServerName(String serverName) {
+	this.serverName = serverName;
+    }
+
+    void setJobs(List<Job> jobs) {
+	this.jobs = jobs;
     }
 
 }

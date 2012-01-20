@@ -170,8 +170,8 @@ public class StatusPanelTest {
     }
 
     void setJob(JobStatus jobStatus2, boolean running) {
-	updateStatus(MockFactory.newStatus(MockFactory.newJob(jobStatus2,
-		running)));
+	updateStatus(MockFactory.newStatus(MockFactory.newJob(StatusPanelTest.JOB_NAME,
+		jobStatus2, running)));
     }
 
     void updateStatus(final Status serverStatus) {

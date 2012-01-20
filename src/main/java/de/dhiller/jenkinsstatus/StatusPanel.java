@@ -46,6 +46,7 @@ final class StatusPanel extends JPanel {
     private static final Dimension PREFERRED_SIZE = new Dimension(25, 25);
     public static final String JOB_NAME = "jobName";
     public static final String LIGHTBULB = "lightbulb";
+    private Status lastServerStatus;
 
     {
 	setBackground(background());
@@ -59,6 +60,8 @@ final class StatusPanel extends JPanel {
     private static final Insets INSETS = new Insets(2, 2, 2, 2);
 
     void updateStatus(Status serverStatus) {
+	if (serverStatus.equals(lastServerStatus))
+	    return;
 	removeAll();
 	int row = 0;
 	for (Job job : serverStatus.jobs()) {
@@ -84,6 +87,7 @@ final class StatusPanel extends JPanel {
 	}
 	add(newFillPanel(), new GridBagConstraints(0, row, 5, 1, 0, 0,
 		GridBagConstraints.WEST, GridBagConstraints.BOTH, INSETS, 0, 0));
+	lastServerStatus = serverStatus;
     }
 
     JPanel newFillPanel() {

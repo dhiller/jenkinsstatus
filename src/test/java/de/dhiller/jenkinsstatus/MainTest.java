@@ -25,6 +25,8 @@ package de.dhiller.jenkinsstatus;
 import static org.testng.AssertJUnit.*;
 import static org.mockito.Mockito.*;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -32,6 +34,7 @@ import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.edt.GuiTask;
 import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.JPanelFixture;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.AfterMethod;
@@ -44,6 +47,35 @@ import de.dhiller.ci.jenkins.Status;
 
 public class MainTest {
 
+    static final Job[] jobs = { newJob(null, JobStatus.BLUE, false),
+	    newJob(null, JobStatus.YELLOW, false),
+	    newJob(null, JobStatus.RED, false),
+	    newJob(null, JobStatus.GREY, false),
+	    newJob(null, JobStatus.ABORTED, false),
+	    newJob(null, JobStatus.DISABLED, false),
+	    newJob(null, JobStatus.NOTBUILT, false),
+	    newJob(null, JobStatus.BLUE, true),
+	    newJob(null, JobStatus.YELLOW, true),
+	    newJob(null, JobStatus.RED, true),
+	    newJob(null, JobStatus.GREY, true),
+	    newJob(null, JobStatus.ABORTED, true),
+	    newJob(null, JobStatus.DISABLED, true),
+	    newJob(null, JobStatus.NOTBUILT, true) };
+
+    boolean disableTimer = true;
+
+    protected static Job newJob(String name, JobStatus status, boolean running) {
+	return MockFactory.newJob((name == null ? status.toString() + " "
+		+ (running ? "" : "not ") + "running" : name), status, running);
+    }
+
+    public static void main(String[] args) throws Exception {
+	final MainTest mainTest = new MainTest();
+	mainTest.initMocks();
+	mainTest.disableTimer = false;
+	mainTest.setUpTestInstance();
+    }
+
     @Mock
     StatusProvider statusProvider;
 
@@ -55,9 +87,7 @@ public class MainTest {
     @BeforeMethod
     public void initMocks() throws Exception {
 	MockitoAnnotations.initMocks(this);
-	final Job firstJob = MockFactory.newJob(
-		JobStatus.BLUE, false);
-	final Status newStatus = MockFactory.newStatus(firstJob);
+	final Status newStatus = MockFactory.newStatus(jobs);
 	when(statusProvider.provide()).thenReturn(newStatus);
     }
 
@@ -68,7 +98,7 @@ public class MainTest {
 
 		    @Override
 		    protected Main executeInEDT() throws Throwable {
-			final Main main = new Main(false);
+			final Main main = new Main(disableTimer);
 			main.setStatusProvider(statusProvider);
 			main.setVisible(true);
 			return main;
@@ -88,15 +118,35 @@ public class MainTest {
 
     @Test
     public void panelVisible() throws Exception {
-	GuiActionRunner.execute(new GuiTask() {
+	statusPanel().requireVisible();
+    }
+
+    protected JPanelFixture statusPanel() throws InterruptedException {
+	final StatusUpdater statusUpdater = GuiActionRunner
+		.execute(new GuiQuery<StatusUpdater>() {
+
+		    @Override
+		    protected StatusUpdater executeInEDT() throws Throwable {
+			return ((Main) frameFixture.component()).initStatus();
+		    }
+		});
+	statusUpdater.addPropertyChangeListener(new PropertyChangeListener() {
 
 	    @Override
-	    protected void executeInEDT() throws Throwable {
-		((Main) frameFixture.component()).initStatus();
+	    public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println(evt); //$NON-NLS-1$ // TODO: Remove
 	    }
 	});
-	frameFixture.robot.finder()
-		.findByName("statusPanel", StatusPanel.class);
+	while (!statusUpdater.isDone()) {
+	    synchronized (statusUpdater) {
+		statusUpdater.wait(100);
+
+	    }
+	}
+	final JPanelFixture statusPanelFixture = new JPanelFixture(
+		frameFixture.robot, frameFixture.robot.finder().findByName(
+			"statusPanel", StatusPanel.class));
+	return statusPanelFixture;
     }
 
 }

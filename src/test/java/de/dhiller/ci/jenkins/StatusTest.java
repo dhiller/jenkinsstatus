@@ -76,6 +76,28 @@ public class StatusTest {
 	assertTrue(job(3).isRunning());
     }
 
+    @Test
+    public void nameNotEqual() throws Exception {
+	assertFalse(newStatus("17").equals(newStatus("42")));
+    }
+
+    @Test
+    public void nameEqual() throws Exception {
+	assertTrue(newStatus("17").equals(newStatus("17")));
+    }
+
+    protected Status newStatus(final String serverName) {
+	final Status first = new Status();
+	first.setServerName(serverName);
+	return first;
+    }
+
+    public void notEqual() throws Exception {
+	final Status first = new Status();
+	first.setServerName("17");
+	assertTrue(first.equals(new Status()));
+    }
+
     Job first() {
 	return job(0);
     }

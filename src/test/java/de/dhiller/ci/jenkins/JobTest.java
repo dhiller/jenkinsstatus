@@ -20,32 +20,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package de.dhiller.jenkinsstatus;
+package de.dhiller.ci.jenkins;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.testng.AssertJUnit.*;
 
-import java.util.Arrays;
-import java.util.List;
+import org.testng.annotations.Test;
 
-import de.dhiller.ci.jenkins.Job;
-import de.dhiller.ci.jenkins.JobStatus;
-import de.dhiller.ci.jenkins.Status;
+public class JobTest {
 
-class MockFactory {
-
-    static Status newStatus(final Job... jobs) {
-        final Status serverStatus = mock(Status.class);
-	when(serverStatus.jobs()).thenReturn(Arrays.asList(jobs));
-        return serverStatus;
+    @Test
+    public void equal() throws Exception {
+	assertTrue(job().equals(job()));
     }
 
-    static Job newJob(String name, JobStatus status, boolean running) {
-	final Job result = mock(Job.class);
-	when(result.name()).thenReturn(name);
-	when(result.status()).thenReturn(status);
-	when(result.isRunning()).thenReturn(running);
-	return result;
+    @Test
+    public void nameNotEqual() throws Exception {
+	final Job first = job();
+	first.name = "blah";
+	assertFalse(first.equals(job()));
+    }
+
+    @Test
+    public void runningNotEqual() throws Exception {
+	final Job first = job();
+	first.running = false;
+	assertFalse(first.equals(job()));
+    }
+
+    @Test
+    public void statusNotEqual() throws Exception {
+	final Job first = job();
+	first.status = JobStatus.RED;
+	assertFalse(first.equals(job()));
+    }
+
+    protected Job job() {
+	final Job job = new Job();
+	job.name = "test";
+	job.running = true;
+	job.status = JobStatus.BLUE;
+	return job;
     }
 
 }
