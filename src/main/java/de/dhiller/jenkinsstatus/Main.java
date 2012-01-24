@@ -42,6 +42,7 @@ import org.jdom.JDOMException;
 
 public class Main extends JFrame {
 
+    private final OSXUtils osXUtils = new OSXUtils();
     private StatusProvider statusProvider = new DefaultStatusProvider();
 
     private final class UndecoratedButton extends JButton {
@@ -59,8 +60,8 @@ public class Main extends JFrame {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	Main.this.dispose();
-	System.exit(0);
+	    Main.this.dispose();
+	    System.exit(0);
 	}
     }
 
@@ -82,12 +83,12 @@ public class Main extends JFrame {
 
     private final Timer statusUpdateTimer = new Timer(1000,
 	    new ActionListener() {
-        
-        @Override
-        public void actionPerformed(ActionEvent e) {
-    	initStatus();
-        }
-    });
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		    initStatus();
+		}
+	    });
 
     Main() {
 	this(false);
@@ -114,10 +115,12 @@ public class Main extends JFrame {
 	this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	if (!disableTimer)
 	    statusUpdateTimer.start();
+	osXUtils.requestToggleFullScreen(this);
     }
 
     StatusUpdater initStatus() {
-	final StatusUpdater statusUpdater = new StatusUpdater(preferences, status, Main.this);
+	final StatusUpdater statusUpdater = new StatusUpdater(preferences,
+		status, Main.this);
 	statusUpdater.setStatusProvider(statusProvider);
 	statusUpdater.execute();
 	return statusUpdater;
