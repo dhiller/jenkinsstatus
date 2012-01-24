@@ -23,9 +23,11 @@
 package de.dhiller.jenkinsstatus;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -42,9 +44,30 @@ public class Main extends JFrame {
 
     private StatusProvider statusProvider = new DefaultStatusProvider();
 
+    private final class UndecoratedButton extends JButton {
+
+	private UndecoratedButton(Action a) {
+	    super(a);
+	    UndecoratedButton.this.setBorderPainted(false);
+	}
+    }
+
+    private final class CloseFrame extends AbstractAction {
+	private CloseFrame() {
+	    super("", new ImageIcon(Main.class.getResource("/off.png"), ""));
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	Main.this.dispose();
+	System.exit(0);
+	}
+    }
+
     private final class EditPreferences extends AbstractAction {
 	private EditPreferences() {
-	    super("...");
+	    super("",
+		    new ImageIcon(Main.class.getResource("/settings.png"), ""));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -75,12 +98,20 @@ public class Main extends JFrame {
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.getContentPane().setLayout(new BorderLayout());
 	status.setName("statusPanel");
-	this.getContentPane().add(status);
+	final JScrollPane comp = new JScrollPane(status);
+	comp.setBorder(BorderFactory.createEmptyBorder());
+	this.getContentPane().add(comp);
 	final JPanel buttons = new JPanel();
-	buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	buttons.add(new JButton(new EditPreferences()));
-	this.getContentPane().add(buttons, BorderLayout.SOUTH);
-	pack();
+	buttons.setLayout(new GridLayout(2, 1));
+	buttons.setBackground(Color.BLACK);
+	buttons.add(new UndecoratedButton(new EditPreferences()));
+	buttons.add(new UndecoratedButton(new CloseFrame()));
+	final JPanel east = new JPanel();
+	east.setBackground(Color.BLACK);
+	east.add(buttons, BorderLayout.NORTH);
+	this.getContentPane().add(east, BorderLayout.EAST);
+	this.setUndecorated(true);
+	this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	if (!disableTimer)
 	    statusUpdateTimer.start();
     }

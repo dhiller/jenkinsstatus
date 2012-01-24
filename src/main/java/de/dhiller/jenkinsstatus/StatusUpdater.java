@@ -64,7 +64,6 @@ final class StatusUpdater extends SwingWorker<Status, Object> {
 	} catch (ExecutionException e) {
 	    e.printStackTrace(); // TODO
 	}
-	frame.pack();
     }
 
     StatusProvider getStatusProvider() {

@@ -22,16 +22,11 @@
 
 package de.dhiller.jenkinsstatus;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import de.dhiller.ci.jenkins.Job;
 import de.dhiller.ci.jenkins.JobStatus;
@@ -42,8 +37,6 @@ import eu.hansolo.steelseries.tools.LedColor;
 
 final class StatusPanel extends JPanel {
 
-    private static final Dimension MINIMUM_SIZE = new Dimension(25, 25);
-    private static final Dimension PREFERRED_SIZE = new Dimension(25, 25);
     public static final String JOB_NAME = "jobName";
     public static final String LIGHTBULB = "lightbulb";
     private Status lastServerStatus;
@@ -58,12 +51,18 @@ final class StatusPanel extends JPanel {
     }
 
     private static final Insets INSETS = new Insets(2, 2, 2, 2);
+    private float maxHeightPerLine;
 
     void updateStatus(Status serverStatus) {
 	if (serverStatus.equals(lastServerStatus))
 	    return;
 	removeAll();
 	int row = 0;
+	final Dimension screenSize = Toolkit.getDefaultToolkit()
+		.getScreenSize();
+	maxHeightPerLine = Math.min(50f,
+		(float) (screenSize.getHeight() / ((double) serverStatus.jobs()
+			.size() * 1.4)));
 	for (Job job : serverStatus.jobs()) {
 	    final LightBulb comp = new LightBulb();
 	    comp.setName(LIGHTBULB);
@@ -78,16 +77,19 @@ final class StatusPanel extends JPanel {
 	    final JLabel jobName = new JLabel(job.name());
 	    jobName.setName(JOB_NAME);
 	    jobName.setForeground(Color.lightGray);
-	    jobName.setFont(jobName.getFont().deriveFont(20.0f)
+	    jobName.setFont(jobName.getFont().deriveFont(maxHeightPerLine)
 		    .deriveFont(Font.BOLD));
-	    add(jobName, new GridBagConstraints(4, row, 1, 1, 0, 0,
+	    add(jobName, new GridBagConstraints(4, row, 1, 1, 1.0, 0,
 		    GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
 		    INSETS, 0, 0));
 	    row++;
 	}
-	add(newFillPanel(), new GridBagConstraints(0, row, 5, 1, 0, 0,
+	add(newFillPanel(), new GridBagConstraints(0, row, 5, 1, 1.0, 1.0,
 		GridBagConstraints.WEST, GridBagConstraints.BOTH, INSETS, 0, 0));
 	lastServerStatus = serverStatus;
+	invalidate();
+	revalidate();
+	repaint();
     }
 
     JPanel newFillPanel() {
@@ -109,8 +111,10 @@ final class StatusPanel extends JPanel {
     }
 
     void setSizes(Component statusLed) {
-	statusLed.setMinimumSize(MINIMUM_SIZE);
-	statusLed.setPreferredSize(PREFERRED_SIZE);
+	final int adjustedHeight = (int) (maxHeightPerLine * 1.2);
+	statusLed.setMinimumSize(new Dimension(adjustedHeight, adjustedHeight));
+	statusLed
+		.setPreferredSize(new Dimension(adjustedHeight, adjustedHeight));
     }
 
     GridBagConstraints newLedConstraints(int row, int column) {
