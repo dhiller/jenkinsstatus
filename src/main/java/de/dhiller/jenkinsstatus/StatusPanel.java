@@ -37,6 +37,8 @@ import eu.hansolo.steelseries.tools.LedColor;
 
 final class StatusPanel extends JPanel {
 
+    private static final float MAXIMUM_SIZE = 50f;
+    private static final float MINIMUM_SIZE = 30f;
     public static final String JOB_NAME = "jobName";
     public static final String LIGHTBULB = "lightbulb";
     private Status lastServerStatus;
@@ -58,11 +60,7 @@ final class StatusPanel extends JPanel {
 	    return;
 	removeAll();
 	int row = 0;
-	final Dimension screenSize = Toolkit.getDefaultToolkit()
-		.getScreenSize();
-	maxHeightPerLine = Math.min(50f,
-		(float) (screenSize.getHeight() / ((double) serverStatus.jobs()
-			.size() * 1.4)));
+	calculatemaxHeightPerLine(serverStatus);
 	for (Job job : serverStatus.jobs()) {
 	    final LightBulb comp = new LightBulb();
 	    comp.setName(LIGHTBULB);
@@ -90,6 +88,16 @@ final class StatusPanel extends JPanel {
 	invalidate();
 	revalidate();
 	repaint();
+    }
+
+    protected void calculatemaxHeightPerLine(Status serverStatus) {
+	final Dimension screenSize = Toolkit.getDefaultToolkit()
+		.getScreenSize();
+	final float pixelSizePerLine = (float) (screenSize.getHeight() / ((double) serverStatus
+		.jobs().size() * 1.4));
+	maxHeightPerLine = pixelSizePerLine < MINIMUM_SIZE ? MINIMUM_SIZE
+		: (pixelSizePerLine > MAXIMUM_SIZE ? MAXIMUM_SIZE
+			: pixelSizePerLine);
     }
 
     JPanel newFillPanel() {

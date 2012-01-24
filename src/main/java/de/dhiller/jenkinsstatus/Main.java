@@ -101,6 +101,8 @@ public class Main extends JFrame {
 	status.setName("statusPanel");
 	final JScrollPane comp = new JScrollPane(status);
 	comp.setBorder(BorderFactory.createEmptyBorder());
+	comp.getVerticalScrollBar().setBackground(Color.black);
+	comp.getHorizontalScrollBar().setBackground(Color.black);
 	this.getContentPane().add(comp);
 	final JPanel buttons = new JPanel();
 	buttons.setLayout(new GridLayout(2, 1));
