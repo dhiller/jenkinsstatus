@@ -128,7 +128,9 @@ public class Main extends JFrame {
 	return statusUpdater;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException {
+	if (args.length > 0 && args[0].matches("http:\\/\\/[^:](:[0-9]+)?/.*"))
+	    PreferencesDialog.saveURI(args[0]);
 	SwingUtilities.invokeLater(new Runnable() {
 
 	    public void run() {

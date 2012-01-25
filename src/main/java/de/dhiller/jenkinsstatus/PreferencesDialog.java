@@ -27,6 +27,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -59,8 +60,8 @@ final class PreferencesDialog extends JDialog {
 
 	public void actionPerformed(ActionEvent e) {
 	    try {
-		final URI uri = new URI(serverURI.getText());
-		Main.preferences.put(Constants.SERVER_URI, uri.toASCIIString());
+		final String uriText = serverURI.getText();
+		saveURI(uriText);
 		main.initStatus();
 		dispose();
 	    } catch (Exception e1) {
@@ -88,4 +89,10 @@ final class PreferencesDialog extends JDialog {
 	getContentPane().add(okCancel, BorderLayout.SOUTH);
 	pack();
     }
+
+    static void saveURI(final String uriText) throws URISyntaxException {
+	final URI uri = new URI(uriText);
+	Main.preferences.put(Constants.SERVER_URI, uri.toASCIIString());
+    }
+
 }

@@ -1,0 +1,8 @@
+TODO
+====
+
+ - Visualize aborted jobs with a flickering Lightbulb (
+	i.e. first a fast flickering (on/off)
+	then three times short on longer off, 
+	then off,
+	repeat 
