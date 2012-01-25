@@ -28,19 +28,20 @@ import javax.swing.SwingUtilities;
 
 class OSXUtils {
 
-    private boolean isOSX() {
+    public boolean isOSX() {
 	String mrjVersion = System.getProperty("mrj.version");
 	return (mrjVersion != null);
     }
 
-    private void markWindowAsFullScreen(Window w) {
+    public void markWindowAsFullScreen(Window w) {
+	if (!isOSX())
+	    return;
 	com.apple.eawt.FullScreenUtilities.setWindowCanFullScreen(w, true);
     }
 
     public void requestToggleFullScreen(final Window w) {
 	if (!isOSX())
 	    return;
-	markWindowAsFullScreen(w);
 	SwingUtilities.invokeLater(new Runnable() {
 
 	    @Override

@@ -76,6 +76,18 @@ public class Main extends JFrame {
 	}
     }
 
+    private final class FullScreenFrame extends AbstractAction {
+	private FullScreenFrame() {
+	    super("",
+		    new ImageIcon(Main.class.getResource("/settings.png"), ""));
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    osXUtils.requestToggleFullScreen(Main.this);
+	}
+    }
+
     static final Preferences preferences = Preferences
 	    .userNodeForPackage(Main.class);
 
@@ -96,6 +108,7 @@ public class Main extends JFrame {
 
     Main(boolean disableTimer) {
 	super("Jenkins Status");
+	osXUtils.markWindowAsFullScreen(this);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.getContentPane().setLayout(new BorderLayout());
 	status.setName("statusPanel");
@@ -105,10 +118,12 @@ public class Main extends JFrame {
 	comp.getHorizontalScrollBar().setBackground(Color.black);
 	this.getContentPane().add(comp);
 	final JPanel buttons = new JPanel();
-	buttons.setLayout(new GridLayout(2, 1));
+	buttons.setLayout(new GridLayout(3, 1));
 	buttons.setBackground(Color.BLACK);
 	buttons.add(new UndecoratedButton(new EditPreferences()));
 	buttons.add(new UndecoratedButton(new CloseFrame()));
+	if (osXUtils.isOSX())
+	    buttons.add(new UndecoratedButton(new FullScreenFrame()));
 	final JPanel east = new JPanel();
 	east.setBackground(Color.BLACK);
 	east.add(buttons, BorderLayout.NORTH);
@@ -117,7 +132,6 @@ public class Main extends JFrame {
 	this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	if (!disableTimer)
 	    statusUpdateTimer.start();
-	osXUtils.requestToggleFullScreen(this);
     }
 
     StatusUpdater initStatus() {
