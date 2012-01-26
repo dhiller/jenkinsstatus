@@ -23,7 +23,12 @@
 package de.dhiller.jenkinsstatus;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.WindowAdapter;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -41,11 +46,25 @@ final class StatusPanel extends JPanel {
     private static final float MINIMUM_SIZE = 30f;
     public static final String JOB_NAME = "jobName";
     public static final String LIGHTBULB = "lightbulb";
-    private Status lastServerStatus;
+    private Status lastServerStatus = new Status();
 
     {
 	setBackground(background());
 	setLayout(new GridBagLayout());
+	java.awt.EventQueue.invokeLater(new Runnable() {
+	    public void run() {
+		final Window windowAncestor = SwingUtilities
+			.getWindowAncestor(StatusPanel.this);
+		((JFrame) windowAncestor)
+			.addComponentListener(new ComponentAdapter() {
+			    @Override
+			    public void componentResized(ComponentEvent e) {
+				System.out.println(e); //$NON-NLS-1$ // TODO: Remove
+				reinitComponents(lastServerStatus);
+			    }
+			});
+	    }
+	});
     }
 
     Color background() {
@@ -58,6 +77,10 @@ final class StatusPanel extends JPanel {
     void updateStatus(Status serverStatus) {
 	if (serverStatus.equals(lastServerStatus))
 	    return;
+	reinitComponents(serverStatus);
+    }
+
+    void reinitComponents(Status serverStatus) {
 	removeAll();
 	int row = 0;
 	calculatemaxHeightPerLine(serverStatus);
@@ -77,7 +100,7 @@ final class StatusPanel extends JPanel {
 	    jobName.setForeground(Color.lightGray);
 	    jobName.setFont(jobName.getFont().deriveFont(maxHeightPerLine)
 		    .deriveFont(Font.BOLD));
-	    add(jobName, new GridBagConstraints(4, row, 1, 1, 1.0, 0,
+	    add(jobName, new GridBagConstraints(4, row, 1, 1, 0.0, 0,
 		    GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
 		    INSETS, 0, 0));
 	    row++;
@@ -91,9 +114,9 @@ final class StatusPanel extends JPanel {
     }
 
     protected void calculatemaxHeightPerLine(Status serverStatus) {
-	final Dimension screenSize = Toolkit.getDefaultToolkit()
-		.getScreenSize();
-	final float pixelSizePerLine = (float) (screenSize.getHeight() / ((double) serverStatus
+	final Dimension windowSize = SwingUtilities.getWindowAncestor(this)
+		.getSize();
+	final float pixelSizePerLine = (float) (windowSize.getHeight() / ((double) serverStatus
 		.jobs().size() * 1.4));
 	maxHeightPerLine = pixelSizePerLine < MINIMUM_SIZE ? MINIMUM_SIZE
 		: (pixelSizePerLine > MAXIMUM_SIZE ? MAXIMUM_SIZE

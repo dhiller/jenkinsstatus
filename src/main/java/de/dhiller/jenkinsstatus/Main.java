@@ -56,6 +56,7 @@ public class Main extends JFrame {
     private final class CloseFrame extends AbstractAction {
 	private CloseFrame() {
 	    super("", new ImageIcon(Main.class.getResource("/off.png"), ""));
+	    putValue(SHORT_DESCRIPTION, "Exit");
 	}
 
 	@Override
@@ -69,6 +70,7 @@ public class Main extends JFrame {
 	private EditPreferences() {
 	    super("",
 		    new ImageIcon(Main.class.getResource("/settings.png"), ""));
+	    putValue(SHORT_DESCRIPTION, "Edit preferences");
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -80,11 +82,13 @@ public class Main extends JFrame {
 	private FullScreenFrame() {
 	    super("",
 		    new ImageIcon(Main.class.getResource("/settings.png"), ""));
+	    putValue(SHORT_DESCRIPTION, "Toggle full screen");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    osXUtils.requestToggleFullScreen(Main.this);
+	    Main.this.setUndecorated(!Main.this.isUndecorated());
 	}
     }
 
@@ -120,15 +124,14 @@ public class Main extends JFrame {
 	final JPanel buttons = new JPanel();
 	buttons.setLayout(new GridLayout(3, 1));
 	buttons.setBackground(Color.BLACK);
-	buttons.add(new UndecoratedButton(new EditPreferences()));
-	buttons.add(new UndecoratedButton(new CloseFrame()));
 	if (osXUtils.isOSX())
 	    buttons.add(new UndecoratedButton(new FullScreenFrame()));
+	buttons.add(new UndecoratedButton(new EditPreferences()));
+	buttons.add(new UndecoratedButton(new CloseFrame()));
 	final JPanel east = new JPanel();
 	east.setBackground(Color.BLACK);
 	east.add(buttons, BorderLayout.NORTH);
 	this.getContentPane().add(east, BorderLayout.EAST);
-	this.setUndecorated(true);
 	this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	if (!disableTimer)
 	    statusUpdateTimer.start();
