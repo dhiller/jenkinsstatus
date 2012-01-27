@@ -1,9 +1,12 @@
 TODO
 ====
 
- - Set icon for fullscreen button
- - Visualize aborted jobs with a flickering Lightbulb (
-	i.e. first a fast flickering (on/off)
-	then three times short on longer off, 
-	then off,
-	repeat 
+ - Research why there is a blank space at the bottom of the screen
+   when fullscreen is enabled
+ - Visualize aborted jobs with a flickering Lightbulb, i.e. 
+	 - first a fast flickering (on/off)
+	 - then three times short on longer off, 
+	 - then off,
+	 - repeat 
+ - Research java screen saver support
+ - Move the preferences dialog into a panel that is shown on the frame top

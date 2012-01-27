@@ -26,6 +26,9 @@ import java.awt.Window;
 
 import javax.swing.SwingUtilities;
 
+import com.apple.eawt.AppEvent.FullScreenEvent;
+import com.apple.eawt.FullScreenListener;
+
 class OSXUtils {
 
     public boolean isOSX() {
@@ -37,6 +40,12 @@ class OSXUtils {
 	if (!isOSX())
 	    return;
 	com.apple.eawt.FullScreenUtilities.setWindowCanFullScreen(w, true);
+    }
+
+    public void addFullScreenListener(Window w, FullScreenListener l) {
+	if (!isOSX())
+	    return;
+	com.apple.eawt.FullScreenUtilities.addFullScreenListenerTo(w, l);
     }
 
     public void requestToggleFullScreen(final Window w) {

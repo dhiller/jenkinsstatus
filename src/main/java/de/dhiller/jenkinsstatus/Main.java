@@ -40,6 +40,9 @@ import javax.swing.*;
 
 import org.jdom.JDOMException;
 
+import com.apple.eawt.FullScreenListener;
+import com.apple.eawt.AppEvent.FullScreenEvent;
+
 public class Main extends JFrame {
 
     private final OSXUtils osXUtils = new OSXUtils();
@@ -78,20 +81,6 @@ public class Main extends JFrame {
 	}
     }
 
-    private final class FullScreenFrame extends AbstractAction {
-	private FullScreenFrame() {
-	    super("",
-		    new ImageIcon(Main.class.getResource("/settings.png"), ""));
-	    putValue(SHORT_DESCRIPTION, "Toggle full screen");
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	    osXUtils.requestToggleFullScreen(Main.this);
-	    Main.this.setUndecorated(!Main.this.isUndecorated());
-	}
-    }
-
     static final Preferences preferences = Preferences
 	    .userNodeForPackage(Main.class);
 
@@ -108,11 +97,12 @@ public class Main extends JFrame {
 
     Main() {
 	this(false);
+	setBackground(Color.BLACK);
     }
 
     Main(boolean disableTimer) {
 	super("Jenkins Status");
-	osXUtils.markWindowAsFullScreen(this);
+	setUpOSXFullScreen();
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.getContentPane().setLayout(new BorderLayout());
 	status.setName("statusPanel");
@@ -122,12 +112,9 @@ public class Main extends JFrame {
 	comp.getHorizontalScrollBar().setBackground(Color.black);
 	this.getContentPane().add(comp);
 	final JPanel buttons = new JPanel();
-	buttons.setLayout(new GridLayout(3, 1));
+	buttons.setLayout(new GridLayout(1, 1));
 	buttons.setBackground(Color.BLACK);
-	if (osXUtils.isOSX())
-	    buttons.add(new UndecoratedButton(new FullScreenFrame()));
 	buttons.add(new UndecoratedButton(new EditPreferences()));
-	buttons.add(new UndecoratedButton(new CloseFrame()));
 	final JPanel east = new JPanel();
 	east.setBackground(Color.BLACK);
 	east.add(buttons, BorderLayout.NORTH);
@@ -135,6 +122,35 @@ public class Main extends JFrame {
 	this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	if (!disableTimer)
 	    statusUpdateTimer.start();
+    }
+
+    void setUpOSXFullScreen() {
+	try {
+	    osXUtils.markWindowAsFullScreen(this);
+	} catch (Exception e) {
+	    System.out.println("Bad luck, no os x fullscreen support"); //$NON-NLS-1$ // TODO: Remove
+	}
+    }
+
+    void addFullScreenListener() {
+	osXUtils.addFullScreenListener(this, new FullScreenListener() {
+
+	    @Override
+	    public void windowEnteredFullScreen(FullScreenEvent arg0) {
+	    }
+
+	    @Override
+	    public void windowEnteringFullScreen(FullScreenEvent arg0) {
+	    }
+
+	    @Override
+	    public void windowExitedFullScreen(FullScreenEvent arg0) {
+	    }
+
+	    @Override
+	    public void windowExitingFullScreen(FullScreenEvent arg0) {
+	    }
+	});
     }
 
     StatusUpdater initStatus() {

@@ -28,6 +28,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.WindowAdapter;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -59,9 +60,9 @@ final class StatusPanel extends JPanel {
 			.addComponentListener(new ComponentAdapter() {
 			    @Override
 			    public void componentResized(ComponentEvent e) {
-				System.out.println(e); //$NON-NLS-1$ // TODO: Remove
-				reinitComponents(lastServerStatus);
+				reinitWithLastStatus();
 			    }
+
 			});
 	    }
 	});
@@ -80,7 +81,11 @@ final class StatusPanel extends JPanel {
 	reinitComponents(serverStatus);
     }
 
-    void reinitComponents(Status serverStatus) {
+    void reinitWithLastStatus() {
+	reinitComponents(lastServerStatus);
+    }
+
+    private void reinitComponents(Status serverStatus) {
 	removeAll();
 	int row = 0;
 	calculatemaxHeightPerLine(serverStatus);
