@@ -162,6 +162,10 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) throws URISyntaxException {
+
+	System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	System.setProperty("apple.awt.showGrowBox", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+
 	if (args.length > 0 && args[0].matches("http:\\/\\/[^:](:[0-9]+)?/.*"))
 	    PreferencesDialog.saveURI(args[0]);
 	SwingUtilities.invokeLater(new Runnable() {
