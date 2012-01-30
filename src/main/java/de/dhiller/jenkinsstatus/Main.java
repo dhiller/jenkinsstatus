@@ -177,7 +177,7 @@ public class Main extends JFrame {
 	System.setProperty("apple.awt.showGrowBox", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	if (args.length > 0 && args[0].matches("http:\\/\\/[^:](:[0-9]+)?/.*"))
-	    PreferencesDialog.saveURI(args[0]);
+	    ServerPreferences.saveURI(args[0]);
 	SwingUtilities.invokeLater(new Runnable() {
 
 	    public void run() {

@@ -37,40 +37,64 @@ import javax.swing.JTextField;
 
 final class PreferencesPanel extends JPanel {
 
-    /**
-     */
-    private final PreferencesDialog preferencesDialog;
     private final Main main;
 
-    /**
-     * @param preferencesDialog
-     */
-    PreferencesPanel(PreferencesDialog preferencesDialog) {
-	this(null, preferencesDialog);
+    PreferencesPanel(Main main) {
+	if (main == null)
+	    throw new IllegalArgumentException("main null!?");
+	this.main = main;
+	this.setLayout(new BorderLayout());
+	this.setBackground(Color.BLACK);
+	final JPanel preferencesMainPanel = new JPanel();
+	preferencesMainPanel.setBackground(Color.BLACK);
+	preferencesMainPanel.setLayout(new GridLayout(1, 2));
+	final JLabel label = new JLabel("Server URI");
+	label.setForeground(Color.LIGHT_GRAY);
+	preferencesMainPanel.add(label);
+	final JTextField serverURI = new JTextField();
+	serverURI.setText(Main.preferences.get(Constants.SERVER_URI, ""));
+	preferencesMainPanel.add(serverURI);
+	this.add(preferencesMainPanel);
+	final JPanel okCancel = new JPanel();
+	okCancel.setBackground(Color.BLACK);
+	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	okCancel.add(new JButton(new MainSave(serverURI)));
+	okCancel.add(new JButton(new MainCancel()));
+	this.add(okCancel, BorderLayout.SOUTH);
     }
 
-    /**
-     * @param preferencesDialog
-     */
-    PreferencesPanel(Main main) {
-	this(main, null);
+    private final class MainCancel extends Cancel {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	setVisible(false);
+	}
     }
-    
+
+    private final class MainSave extends Save {
+	private MainSave(JTextField serverURI) {
+	    super(serverURI);
+	}
+
+	protected void handle(Exception e1) {
+	e1.printStackTrace(); // TODO
+	JOptionPane.showMessageDialog(PreferencesPanel.this.main,
+		"URI invalid!");
+	}
+
+	protected void update() {
+	PreferencesPanel.this.main.initStatus();
+	}
+
+	protected void dismiss() {
+	setVisible(false);
+	}
+    }
+
     private abstract class Cancel extends AbstractAction {
 	protected Cancel() {
 	    super("Cancel");
 	}
-	
-    }
 
-    private final class DisposeDialogOnCancel extends Cancel {
-	private DisposeDialogOnCancel() {
-	    super();
-	}
-
-	public void actionPerformed(ActionEvent e) {
-	    preferencesDialog.dispose();
-	}
     }
 
     private abstract class Save extends AbstractAction {
@@ -84,7 +108,7 @@ final class PreferencesPanel extends JPanel {
 	public void actionPerformed(ActionEvent e) {
 	    try {
 		final String uriText = serverURI.getText();
-		PreferencesDialog.saveURI(uriText);
+		ServerPreferences.saveURI(uriText);
 		update();
 		dismiss();
 	    } catch (Exception e1) {
@@ -99,33 +123,11 @@ final class PreferencesPanel extends JPanel {
 	protected abstract void dismiss();
     }
 
-    private final class DisposeDialogOnSave extends Save {
-
-	private DisposeDialogOnSave(JTextField serverURI) {
-	    super(serverURI);
-	}
-
-	protected void handle(Exception e1) {
-	    e1.printStackTrace(); // TODO
-	    JOptionPane.showMessageDialog(preferencesDialog, "URI invalid!");
-	}
-
-	protected void update() {
-	    preferencesDialog.main.initStatus();
-	}
-
-	protected void dismiss() {
-	    preferencesDialog.dispose();
-	}
-
-    }
-
-    private PreferencesPanel(Main main, PreferencesDialog preferencesDialog) {
+    private PreferencesPanel(Main main, Object preferencesDialog) {
 	if (main == null && preferencesDialog == null)
 	    throw new IllegalArgumentException("Both null!?");
 	setBackground(Color.BLACK);
 	this.main = main;
-	this.preferencesDialog = preferencesDialog;
 	final JPanel preferencesMainPanel = new JPanel();
 	preferencesMainPanel.setBackground(Color.BLACK);
 	preferencesMainPanel.setLayout(new GridLayout(1, 2));
@@ -137,35 +139,30 @@ final class PreferencesPanel extends JPanel {
 	final JPanel okCancel = new JPanel();
 	okCancel.setBackground(Color.BLACK);
 	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	if (preferencesDialog != null) {
-	    okCancel.add(new JButton(new DisposeDialogOnSave(serverURI)));
-	    okCancel.add(new JButton(new DisposeDialogOnCancel()));
-	} else {
-	    okCancel.add(new JButton(new Save(serverURI) {
+	okCancel.add(new JButton(new Save(serverURI) {
 
-		protected void handle(Exception e1) {
-		    e1.printStackTrace(); // TODO
-		    JOptionPane.showMessageDialog(PreferencesPanel.this.main,
-			    "URI invalid!");
-		}
+	    protected void handle(Exception e1) {
+		e1.printStackTrace(); // TODO
+		JOptionPane.showMessageDialog(PreferencesPanel.this.main,
+			"URI invalid!");
+	    }
 
-		protected void update() {
-		    PreferencesPanel.this.main.initStatus();
-		}
+	    protected void update() {
+		PreferencesPanel.this.main.initStatus();
+	    }
 
-		protected void dismiss() {
-		    setVisible(false);
-		}
-	    }));
-	    okCancel.add(new JButton(new Cancel() {
+	    protected void dismiss() {
+		setVisible(false);
+	    }
+	}));
+	okCancel.add(new JButton(new Cancel() {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-		    setVisible(false);
-		}
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		setVisible(false);
+	    }
 
-	    }));
-	}
+	}));
 	this.add(okCancel, BorderLayout.SOUTH);
 
     }

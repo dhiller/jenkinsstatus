@@ -29,21 +29,9 @@ import java.net.URISyntaxException;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-final class PreferencesDialog extends JDialog {
-    Main main;
-    private JPanel preferencesPanel = new PreferencesPanel(this);
-
-    PreferencesDialog(Main main, String title, boolean modal) {
-	super(main, title, modal);
-	this.main = main;
-	getContentPane().setLayout(new BorderLayout());
-	getContentPane().add(preferencesPanel);
-	pack();
-    }
-
+final class ServerPreferences extends JDialog {
     static void saveURI(final String uriText) throws URISyntaxException {
 	final URI uri = new URI(uriText);
 	Main.preferences.put(Constants.SERVER_URI, uri.toASCIIString());
     }
-
 }
