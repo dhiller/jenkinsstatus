@@ -24,24 +24,16 @@ package de.dhiller.jenkinsstatus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 
 import javax.swing.*;
 
-import org.apache.xerces.impl.RevalidationHandler;
-import org.jdom.JDOMException;
-
-import com.apple.eawt.FullScreenListener;
 import com.apple.eawt.AppEvent.FullScreenEvent;
+import com.apple.eawt.FullScreenListener;
 
 public class Main extends JFrame {
 

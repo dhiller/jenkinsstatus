@@ -73,7 +73,8 @@ public class Job {
 
     @Override
     public String toString() {
-	return "Job [name=" + name + ", status=" + status + "]";
+	return "Job [name=" + name + ", status=" + status + ", running="
+		+ running + "]";
     }
 
 }

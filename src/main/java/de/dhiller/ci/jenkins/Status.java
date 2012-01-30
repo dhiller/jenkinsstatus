@@ -22,19 +22,18 @@
 
 package de.dhiller.ci.jenkins;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.dom4j.Document;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class Status {
 
@@ -94,34 +93,72 @@ public class Status {
     }
 
     void parse(final InputStream stream) throws Exception {
-	SAXReader reader = new SAXReader();
-	Document document = reader.read(stream);
-	setServerName(description(document).getText());
-	setJobs(new ArrayList<Job>());
-	final List<?> jobElements = document.selectNodes("//hudson/job");
-	for (int index = 0, n = jobElements.size(); index < n; index++) {
-	    final Job job = new Job();
-	    final Node jobElement = (Node) jobElements.get(index);
-	    job.name = document.selectSingleNode(
-		    "//hudson/job[" + (index + 1) + "]/name").getText();
-	    final String upperCaseColor = document
-		    .selectSingleNode("//hudson/job[" + (index + 1) + "]/color")
-		    .getText().toUpperCase();
-	    final String[] parts = upperCaseColor.split("_");
-	    final String colorValue = parts[0];
-	    job.status = JobStatus.valueOf(colorValue);
-	    if (parts.length > 1)
-		job.running = parts[1].equals("ANIME");
-	    jobs().add(job);
-	}
+	final List<Job> jobs = new ArrayList<Job>();
+	SAXParserFactory.newInstance().newSAXParser()
+		.parse(stream, new DefaultHandler() {
+
+		    private final List<String> elementPath = new ArrayList<String>();
+		    private StringBuilder descriptionBuilder = new StringBuilder();
+		    private StringBuilder nameBuilder;
+		    private StringBuilder colorBuilder;
+
+		    @Override
+		    public void startElement(String uri, String localName,
+			    String qName, Attributes attributes)
+			    throws SAXException {
+			super.startElement(uri, localName, qName, attributes);
+			elementPath.add(qName);
+			if (elementPath.size() < 2
+				|| !elementPath.subList(0, 2).equals(
+					Arrays.asList("hudson", "job")))
+			    return;
+			if (elementPath.size() == 2) {
+			    nameBuilder = new StringBuilder();
+			    colorBuilder = new StringBuilder();
+			}
+		    }
+		    
+		    @Override
+		    public void characters(char[] ch, int start, int length)
+		            throws SAXException {
+		        super.characters(ch, start, length);
+			if (elementPath.equals(Arrays.asList("hudson", "job",
+				"name")))
+			    nameBuilder.append(ch, start, length);
+			if (elementPath.equals(Arrays.asList("hudson", "job",
+				"color")))
+			    colorBuilder.append(ch, start, length);
+			if (elementPath.equals(Arrays.asList("hudson",
+				"description")))
+			    descriptionBuilder.append(ch, start, length);
+		    }
+
+		    @Override
+		    public void endElement(String uri, String localName,
+			    String qName) throws SAXException {
+			elementPath.remove(qName);
+			if (qName.equals("job")) {
+			    jobs.add(newJob(nameBuilder.toString(),
+				    colorBuilder.toString().toUpperCase()));
+			}
+			if (elementPath.equals(Arrays.asList("hudson"))
+				&& qName.equals("description")) {
+			    serverName = descriptionBuilder.toString();
+			}
+		    }
+		});
+	setJobs(jobs);
     }
 
-    Node description(Document document) {
-	final Node description = document
-		.selectSingleNode("//hudson/description");
-	if (description != null)
-	    return description;
-	return document.selectSingleNode("//hudson/nodeName");
+    static Job newJob(final String name, final String upperCaseColor) {
+	final Job job = new Job();
+	job.name = name;
+	final String[] parts = upperCaseColor.split("_");
+	final String colorValue = parts[0];
+	job.status = JobStatus.valueOf(colorValue);
+	if (parts.length > 1)
+	job.running = parts[1].equals("ANIME");
+	return job;
     }
 
     void setServerName(String serverName) {
