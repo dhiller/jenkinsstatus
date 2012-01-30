@@ -1,6 +1,11 @@
 TODO
 ====
 
+ - Create live filters:
+   - All Jobs of a color
+   - All enabled/disabled/aborted jobs
+   - All running jobs
+   - Text field
  - Research java screen saver support
  - Set a pleasant application icon
  
