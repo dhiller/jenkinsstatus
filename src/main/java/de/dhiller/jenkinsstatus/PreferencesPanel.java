@@ -52,52 +52,30 @@ final class PreferencesPanel extends JPanel {
 	label.setForeground(Color.LIGHT_GRAY);
 	preferencesMainPanel.add(label);
 	final JTextField serverURI = new JTextField();
-	serverURI.setText(Main.preferences.get(Constants.SERVER_URI, ""));
+	serverURI.setText(ServerPreferences.serverURI());
 	preferencesMainPanel.add(serverURI);
 	this.add(preferencesMainPanel);
 	final JPanel okCancel = new JPanel();
 	okCancel.setBackground(Color.BLACK);
 	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	okCancel.add(new JButton(new MainSave(serverURI)));
-	okCancel.add(new JButton(new MainCancel()));
+	okCancel.add(new JButton(new Save(serverURI)));
+	okCancel.add(new JButton(new Cancel()));
 	this.add(okCancel, BorderLayout.SOUTH);
     }
 
-    private final class MainCancel extends Cancel {
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	setVisible(false);
-	}
-    }
-
-    private final class MainSave extends Save {
-	private MainSave(JTextField serverURI) {
-	    super(serverURI);
-	}
-
-	protected void handle(Exception e1) {
-	e1.printStackTrace(); // TODO
-	JOptionPane.showMessageDialog(PreferencesPanel.this.main,
-		"URI invalid!");
-	}
-
-	protected void update() {
-	PreferencesPanel.this.main.initStatus();
-	}
-
-	protected void dismiss() {
-	setVisible(false);
-	}
-    }
-
-    private abstract class Cancel extends AbstractAction {
+    private class Cancel extends AbstractAction {
 	protected Cancel() {
 	    super("Cancel");
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    setVisible(false);
+	}
+
     }
 
-    private abstract class Save extends AbstractAction {
+    private class Save extends AbstractAction {
 	protected final JTextField serverURI;
 
 	private Save(JTextField serverURI) {
@@ -109,18 +87,13 @@ final class PreferencesPanel extends JPanel {
 	    try {
 		final String uriText = serverURI.getText();
 		ServerPreferences.saveURI(uriText);
-		update();
-		dismiss();
+		main.initStatus();
+		setVisible(false);
 	    } catch (Exception e1) {
-		handle(e1);
+		e1.printStackTrace(); // TODO
+		JOptionPane.showMessageDialog(main, "URI invalid!");
 	    }
 	}
-
-	protected abstract void handle(Exception e1);
-
-	protected abstract void update();
-
-	protected abstract void dismiss();
     }
 
     private PreferencesPanel(Main main, Object preferencesDialog) {
@@ -133,36 +106,14 @@ final class PreferencesPanel extends JPanel {
 	preferencesMainPanel.setLayout(new GridLayout(1, 2));
 	preferencesMainPanel.add(new JLabel("Server URI"));
 	final JTextField serverURI = new JTextField();
-	serverURI.setText(Main.preferences.get(Constants.SERVER_URI, ""));
+	serverURI.setText(ServerPreferences.serverURI());
 	preferencesMainPanel.add(serverURI);
 	this.add(preferencesMainPanel);
 	final JPanel okCancel = new JPanel();
 	okCancel.setBackground(Color.BLACK);
 	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	okCancel.add(new JButton(new Save(serverURI) {
-
-	    protected void handle(Exception e1) {
-		e1.printStackTrace(); // TODO
-		JOptionPane.showMessageDialog(PreferencesPanel.this.main,
-			"URI invalid!");
-	    }
-
-	    protected void update() {
-		PreferencesPanel.this.main.initStatus();
-	    }
-
-	    protected void dismiss() {
-		setVisible(false);
-	    }
-	}));
-	okCancel.add(new JButton(new Cancel() {
-
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		setVisible(false);
-	    }
-
-	}));
+	okCancel.add(new JButton(new Save(serverURI)));
+	okCancel.add(new JButton(new Cancel()));
 	this.add(okCancel, BorderLayout.SOUTH);
 
     }

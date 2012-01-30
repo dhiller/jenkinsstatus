@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
@@ -85,9 +84,6 @@ public class Main extends JFrame {
 	    // true).setVisible(true);
 	}
     }
-
-    static final Preferences preferences = Preferences
-	    .userNodeForPackage(Main.class);
 
     private final StatusPanel status = new StatusPanel();
 
@@ -164,7 +160,7 @@ public class Main extends JFrame {
     }
 
     StatusUpdater initStatus() {
-	final StatusUpdater statusUpdater = new StatusUpdater(preferences,
+	final StatusUpdater statusUpdater = new StatusUpdater(ServerPreferences.preferences,
 		status, Main.this);
 	statusUpdater.setStatusProvider(statusProvider);
 	statusUpdater.execute();

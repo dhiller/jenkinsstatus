@@ -51,7 +51,7 @@ final class StatusUpdater extends SwingWorker<Status, Object> {
     }
 
     protected StatusProvider statusProvider() throws URISyntaxException {
-	final URI uri = new URI(preferences.get(Constants.SERVER_URI, ""));
+	final URI uri = new URI(ServerPreferences.serverURI());
 	statusProvider.setUri(uri);
 	return statusProvider;
     }
