@@ -38,6 +38,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
+import org.apache.xerces.impl.RevalidationHandler;
 import org.jdom.JDOMException;
 
 import com.apple.eawt.FullScreenListener;
@@ -77,7 +78,11 @@ public class Main extends JFrame {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-	    new PreferencesDialog(Main.this, "Settings", true).setVisible(true);
+	    preferencesPanel.setVisible(true);
+	    getContentPane().invalidate();
+	    getContentPane().repaint();
+	    // new PreferencesDialog(Main.this, "Settings",
+	    // true).setVisible(true);
 	}
     }
 
@@ -94,6 +99,7 @@ public class Main extends JFrame {
 		    initStatus();
 		}
 	    });
+    private PreferencesPanel preferencesPanel;
 
     Main() {
 	this(false);
@@ -119,6 +125,10 @@ public class Main extends JFrame {
 	east.setBackground(Color.BLACK);
 	east.add(buttons, BorderLayout.NORTH);
 	this.getContentPane().add(east, BorderLayout.EAST);
+	preferencesPanel = new PreferencesPanel(this);
+	preferencesPanel.setVisible(false);
+	this.getContentPane().add(preferencesPanel,
+		BorderLayout.NORTH);
 	this.setExtendedState(Frame.MAXIMIZED_BOTH);
 	if (!disableTimer)
 	    statusUpdateTimer.start();

@@ -23,70 +23,21 @@
 package de.dhiller.jenkinsstatus;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 final class PreferencesDialog extends JDialog {
-    private Main main;
-
-    private final class Cancel extends AbstractAction {
-	private Cancel() {
-	    super("Cancel");
-	}
-
-	public void actionPerformed(ActionEvent e) {
-	    dispose();
-	}
-    }
-
-    private final class Save extends AbstractAction {
-	private final JTextField serverURI;
-
-	private Save(JTextField serverURI) {
-	    super("OK");
-	    this.serverURI = serverURI;
-	}
-
-	public void actionPerformed(ActionEvent e) {
-	    try {
-		final String uriText = serverURI.getText();
-		saveURI(uriText);
-		main.initStatus();
-		dispose();
-	    } catch (Exception e1) {
-		e1.printStackTrace(); // TODO
-		JOptionPane.showMessageDialog(main, "URI invalid!");
-	    }
-	}
-    }
+    Main main;
+    private JPanel preferencesPanel = new PreferencesPanel(this);
 
     PreferencesDialog(Main main, String title, boolean modal) {
 	super(main, title, modal);
 	this.main = main;
 	getContentPane().setLayout(new BorderLayout());
-	final JPanel preferencesPanel = new JPanel();
-	preferencesPanel.setLayout(new GridLayout(1, 2));
-	preferencesPanel.add(new JLabel("Server URI"));
-	final JTextField serverURI = new JTextField();
-	serverURI.setText(Main.preferences.get(Constants.SERVER_URI, ""));
-	preferencesPanel.add(serverURI);
 	getContentPane().add(preferencesPanel);
-	final JPanel okCancel = new JPanel();
-	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	okCancel.add(new JButton(new Save(serverURI)));
-	okCancel.add(new JButton(new Cancel()));
-	getContentPane().add(okCancel, BorderLayout.SOUTH);
 	pack();
     }
 
