@@ -164,6 +164,10 @@ public class Main extends JFrame {
 	System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 	System.setProperty("apple.awt.showGrowBox", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 
+	final com.apple.eawt.Application application = new com.apple.eawt.Application();
+	application.setDockIconImage(new ImageIcon(Main.class
+		.getResource("/jenkins-icon.png")).getImage());
+
 	if (args.length > 0 && args[0].matches("http:\\/\\/[^:](:[0-9]+)?/.*"))
 	    ServerPreferences.saveURI(args[0]);
 	SwingUtilities.invokeLater(new Runnable() {

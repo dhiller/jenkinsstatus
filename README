@@ -38,6 +38,12 @@ Sketch
      - Success rate (100% green, < 100% red)
      - Health reports
      - (later) Maven submodules?
+
+
+Graphics
+--------
+
+All graphics used taken from the jenkins wiki (https://wiki.jenkins-ci.org/)
     
 
 Used libraries
@@ -48,7 +54,6 @@ asap.
 
 Requirements 
  - SteelSeries (@hansolo_)
- - JDom (only to build the prototype, will be removed later)
  
 Testing:
  - TestNG
