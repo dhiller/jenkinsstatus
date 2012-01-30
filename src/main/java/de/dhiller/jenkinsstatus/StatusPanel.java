@@ -37,6 +37,7 @@ import javax.swing.SwingUtilities;
 import de.dhiller.ci.jenkins.Job;
 import de.dhiller.ci.jenkins.JobStatus;
 import de.dhiller.ci.jenkins.Status;
+import de.dhiller.steelseries.extras.DefectLightbulb;
 import eu.hansolo.steelseries.extras.Led;
 import eu.hansolo.steelseries.extras.LightBulb;
 import eu.hansolo.steelseries.tools.LedColor;
@@ -90,7 +91,8 @@ final class StatusPanel extends JPanel {
 	int row = 0;
 	calculatemaxHeightPerLine(serverStatus);
 	for (Job job : serverStatus.jobs()) {
-	    final LightBulb comp = new LightBulb();
+	    final LightBulb comp = (job.status() == JobStatus.ABORTED ? new DefectLightbulb()
+		    : new LightBulb());
 	    comp.setName(LIGHTBULB);
 	    comp.setOn(job.status() != JobStatus.DISABLED);
 	    setSizes(comp);
