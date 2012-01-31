@@ -8,11 +8,12 @@ TODO
    - All running jobs
    - Text field
  - Research java screen saver support
- - Set a pleasant application icon
+	http://stackoverflow.com/questions/2135982/turn-java-app-into-screensaver
  
 DONE
 ====
  
+ - Set a pleasant application icon
  - Replace JDom/Dom4j with SaxParser
  - Move the preferences dialog into a panel that is shown on the frame top
  - Research why there is a blank space at the bottom of the screen
