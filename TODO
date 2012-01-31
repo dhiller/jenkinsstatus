@@ -1,6 +1,7 @@
 TODO
 ====
 
+ - Integrate AppleJavaExtensions
  - Create live filters:
    - All Jobs of a color
    - All enabled/disabled/aborted jobs
