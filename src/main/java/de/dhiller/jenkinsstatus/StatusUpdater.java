@@ -22,15 +22,13 @@
 
 package de.dhiller.jenkinsstatus;
 
+import de.dhiller.ci.jenkins.Status;
+
+import javax.swing.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.ExecutionException;
 import java.util.prefs.Preferences;
-
-import javax.swing.JFrame;
-import javax.swing.SwingWorker;
-
-import de.dhiller.ci.jenkins.Status;
 
 final class StatusUpdater extends SwingWorker<Status, Object> {
 

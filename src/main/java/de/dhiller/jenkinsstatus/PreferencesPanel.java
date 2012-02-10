@@ -22,18 +22,11 @@
 
 package de.dhiller.jenkinsstatus;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.net.URI;
+import java.net.URLConnection;
 
 final class PreferencesPanel extends JPanel {
 
@@ -86,6 +79,10 @@ final class PreferencesPanel extends JPanel {
 	public void actionPerformed(ActionEvent e) {
 	    try {
 		final String uriText = serverURI.getText();
+        final URI uri = new URI(uriText);
+        final URLConnection connection = uri.toURL().openConnection();
+        connection.getContent();
+
 		ServerPreferences.saveURI(uriText);
 		main.initStatus();
 		setVisible(false);
