@@ -2,6 +2,8 @@ TODO
 ====
 
  - Integrate AppleJavaExtensions
+   - Create an abstraction layer that makes the this usable even if the
+     AppleJavaExtensions.jar is not present
  - Create live filters:
    - All Jobs of a color
    - All enabled/disabled/aborted jobs
