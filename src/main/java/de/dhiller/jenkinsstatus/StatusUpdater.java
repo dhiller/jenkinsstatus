@@ -28,51 +28,42 @@ import javax.swing.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.ExecutionException;
-import java.util.prefs.Preferences;
 
 final class StatusUpdater extends SwingWorker<Status, Object> {
 
-    private final Preferences preferences;
     private final StatusPanel status;
-    private final Main frame;
     private StatusProvider statusProvider = new DefaultStatusProvider();
 
-    StatusUpdater(Preferences preferences, StatusPanel status, Main frame) {
-	this.preferences = preferences;
-	this.status = status;
-	this.frame = frame;
+    StatusUpdater(StatusPanel status) {
+        this.status = status;
     }
 
     @Override
     protected Status doInBackground() throws Exception {
-	return statusProvider().provide();
+        return statusProvider().provide();
     }
 
     protected StatusProvider statusProvider() throws URISyntaxException {
-	final URI uri = new URI(ServerPreferences.serverURI());
-	statusProvider.setUri(uri);
-	return statusProvider;
+        final URI uri = new URI(ServerPreferences.serverURI());
+        statusProvider.setUri(uri);
+        return statusProvider;
     }
 
     protected void done() {
-	try {
-	    status.updateStatus(get());
-	} catch (InterruptedException e) {
-	    e.printStackTrace(); // TODO
-	} catch (ExecutionException e) {
-	    e.printStackTrace(); // TODO
-	}
-    }
-
-    StatusProvider getStatusProvider() {
-	return statusProvider;
+        try {
+            status.updateStatus(get());
+        } catch (InterruptedException e) {
+            e.printStackTrace(); // TODO
+        } catch (ExecutionException e) {
+            e.printStackTrace(); // TODO
+        }
     }
 
     void setStatusProvider(StatusProvider statusProvider) {
-	if (statusProvider == null) {
-	    throw new IllegalArgumentException("statusProvider is null!"); //$NON-NLS-1$
-	}
-	this.statusProvider = statusProvider;
+        if (statusProvider == null) {
+            throw new IllegalArgumentException("statusProvider is null!"); //$NON-NLS-1$
+        }
+        this.statusProvider = statusProvider;
     }
 
 }

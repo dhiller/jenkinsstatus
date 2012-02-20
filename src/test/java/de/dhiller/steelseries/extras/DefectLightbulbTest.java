@@ -34,36 +34,36 @@ import javax.swing.JFrame;
 public class DefectLightbulbTest {
 
     public static void main(String[] args) {
-	java.awt.EventQueue.invokeLater(new Runnable() {
-	    public void run() {
-		final JFrame frame = new JFrame() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                final JFrame frame = new JFrame() {
 
-		    final DefectLightbulb defectLightbulb = new DefectLightbulb();
-		    final JCheckBox checkBox = new JCheckBox();
+                    final DefectLightbulb defectLightbulb = new DefectLightbulb();
+                    final JCheckBox checkBox = new JCheckBox();
 
-		    {
-			setBackground(Color.BLACK);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			getContentPane().setPreferredSize(
-				new Dimension(200, 150));
-			getContentPane()
-				.setMinimumSize(new Dimension(200, 150));
-			add(defectLightbulb);
-			final AbstractAction action = new AbstractAction() {
+                    {
+                        setBackground(Color.BLACK);
+                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        getContentPane().setPreferredSize(
+                                new Dimension(200, 150));
+                        getContentPane()
+                                .setMinimumSize(new Dimension(200, 150));
+                        add(defectLightbulb);
+                        final AbstractAction action = new AbstractAction() {
 
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-				defectLightbulb.setOn(checkBox.isSelected());
-			    }
-			};
-			checkBox.setAction(action);
-			add(checkBox, BorderLayout.SOUTH);
-			pack();
-		    }
-		};
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
-	    }
-	});
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                defectLightbulb.setOn(checkBox.isSelected());
+                            }
+                        };
+                        checkBox.setAction(action);
+                        add(checkBox, BorderLayout.SOUTH);
+                        pack();
+                    }
+                };
+                frame.setVisible(true);
+                frame.setLocationRelativeTo(null);
+            }
+        });
     }
 }

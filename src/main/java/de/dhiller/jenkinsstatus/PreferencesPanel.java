@@ -33,85 +33,64 @@ final class PreferencesPanel extends JPanel {
     private final Main main;
 
     PreferencesPanel(Main main) {
-	if (main == null)
-	    throw new IllegalArgumentException("main null!?");
-	this.main = main;
-	this.setLayout(new BorderLayout());
-	this.setBackground(Color.BLACK);
-	final JPanel preferencesMainPanel = new JPanel();
-	preferencesMainPanel.setBackground(Color.BLACK);
-	preferencesMainPanel.setLayout(new GridLayout(1, 2));
-	final JLabel label = new JLabel("Server URI");
-	label.setForeground(Color.LIGHT_GRAY);
-	preferencesMainPanel.add(label);
-	final JTextField serverURI = new JTextField();
-	serverURI.setText(ServerPreferences.serverURI());
-	preferencesMainPanel.add(serverURI);
-	this.add(preferencesMainPanel);
-	final JPanel okCancel = new JPanel();
-	okCancel.setBackground(Color.BLACK);
-	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	okCancel.add(new JButton(new Save(serverURI)));
-	okCancel.add(new JButton(new Cancel()));
-	this.add(okCancel, BorderLayout.SOUTH);
+        if (main == null)
+            throw new IllegalArgumentException("main null!?");
+        this.main = main;
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.BLACK);
+        final JPanel preferencesMainPanel = new JPanel();
+        preferencesMainPanel.setBackground(Color.BLACK);
+        preferencesMainPanel.setLayout(new GridLayout(1, 2));
+        final JLabel label = new JLabel("Server URI");
+        label.setForeground(Color.LIGHT_GRAY);
+        preferencesMainPanel.add(label);
+        final JTextField serverURI = new JTextField();
+        serverURI.setText(ServerPreferences.serverURI());
+        preferencesMainPanel.add(serverURI);
+        this.add(preferencesMainPanel);
+        final JPanel okCancel = new JPanel();
+        okCancel.setBackground(Color.BLACK);
+        okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        okCancel.add(new JButton(new Save(serverURI)));
+        okCancel.add(new JButton(new Cancel()));
+        this.add(okCancel, BorderLayout.SOUTH);
     }
 
     private class Cancel extends AbstractAction {
-	protected Cancel() {
-	    super("Cancel");
-	}
+        protected Cancel() {
+            super("Cancel");
+        }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	    setVisible(false);
-	}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setVisible(false);
+        }
 
     }
 
     private class Save extends AbstractAction {
-	protected final JTextField serverURI;
+        protected final JTextField serverURI;
 
-	private Save(JTextField serverURI) {
-	    super("OK");
-	    this.serverURI = serverURI;
-	}
+        private Save(JTextField serverURI) {
+            super("OK");
+            this.serverURI = serverURI;
+        }
 
-	public void actionPerformed(ActionEvent e) {
-	    try {
-		final String uriText = serverURI.getText();
-        final URI uri = new URI(uriText);
-        final URLConnection connection = uri.toURL().openConnection();
-        connection.getContent();
+        public void actionPerformed(ActionEvent e) {
+            try {
+                final String uriText = serverURI.getText();
+                final URI uri = new URI(uriText);
+                final URLConnection connection = uri.toURL().openConnection();
+                connection.getContent();
 
-		ServerPreferences.saveURI(uriText);
-		main.initStatus();
-		setVisible(false);
-	    } catch (Exception e1) {
-		e1.printStackTrace(); // TODO
-		JOptionPane.showMessageDialog(main, "URI invalid!");
-	    }
-	}
+                ServerPreferences.saveURI(uriText);
+                main.initStatus();
+                setVisible(false);
+            } catch (Exception e1) {
+                e1.printStackTrace(); // TODO
+                JOptionPane.showMessageDialog(main, "URI invalid!");
+            }
+        }
     }
 
-    private PreferencesPanel(Main main, Object preferencesDialog) {
-	if (main == null && preferencesDialog == null)
-	    throw new IllegalArgumentException("Both null!?");
-	setBackground(Color.BLACK);
-	this.main = main;
-	final JPanel preferencesMainPanel = new JPanel();
-	preferencesMainPanel.setBackground(Color.BLACK);
-	preferencesMainPanel.setLayout(new GridLayout(1, 2));
-	preferencesMainPanel.add(new JLabel("Server URI"));
-	final JTextField serverURI = new JTextField();
-	serverURI.setText(ServerPreferences.serverURI());
-	preferencesMainPanel.add(serverURI);
-	this.add(preferencesMainPanel);
-	final JPanel okCancel = new JPanel();
-	okCancel.setBackground(Color.BLACK);
-	okCancel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	okCancel.add(new JButton(new Save(serverURI)));
-	okCancel.add(new JButton(new Cancel()));
-	this.add(okCancel, BorderLayout.SOUTH);
-
-    }
 }

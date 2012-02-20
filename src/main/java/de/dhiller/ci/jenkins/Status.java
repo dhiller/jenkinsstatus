@@ -22,6 +22,11 @@
 
 package de.dhiller.ci.jenkins;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParserFactory;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -29,144 +34,138 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 public class Status {
 
     private String serverName = "?";
     private List<Job> jobs = Collections.emptyList();
 
     public void parse(String jenkinsrssLatestURI) throws Exception {
-	// TODO: Reduce number of exception types
-	final InputStream stream = new URI(jenkinsrssLatestURI
-		+ (jenkinsrssLatestURI.endsWith("/") ? "" : "/") + "api/xml")
-		.toURL().openStream();
-	try {
-	    parse(stream);
-	} finally {
-	    stream.close();
-	}
+        // TODO: Reduce number of exception types
+        final InputStream stream = new URI(jenkinsrssLatestURI
+                + (jenkinsrssLatestURI.endsWith("/") ? "" : "/") + "api/xml")
+                .toURL().openStream();
+        try {
+            parse(stream);
+        } finally {
+            stream.close();
+        }
     }
 
     public String serverName() {
-	return serverName;
+        return serverName;
     }
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((jobs == null) ? 0 : jobs.hashCode());
-	result = prime * result
-		+ ((serverName == null) ? 0 : serverName.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((jobs == null) ? 0 : jobs.hashCode());
+        result = prime * result
+                + ((serverName == null) ? 0 : serverName.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	Status other = (Status) obj;
-	if (jobs == null) {
-	    if (other.jobs != null)
-		return false;
-	} else if (!jobs.equals(other.jobs))
-	    return false;
-	if (serverName == null) {
-	    if (other.serverName != null)
-		return false;
-	} else if (!serverName.equals(other.serverName))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Status other = (Status) obj;
+        if (jobs == null) {
+            if (other.jobs != null)
+                return false;
+        } else if (!jobs.equals(other.jobs))
+            return false;
+        if (serverName == null) {
+            if (other.serverName != null)
+                return false;
+        } else if (!serverName.equals(other.serverName))
+            return false;
+        return true;
     }
 
     public List<Job> jobs() {
-	return jobs;
+        return jobs;
     }
 
     void parse(final InputStream stream) throws Exception {
-	final List<Job> jobs = new ArrayList<Job>();
-	SAXParserFactory.newInstance().newSAXParser()
-		.parse(stream, new DefaultHandler() {
+        final List<Job> jobs = new ArrayList<Job>();
+        SAXParserFactory.newInstance().newSAXParser()
+                .parse(stream, new DefaultHandler() {
 
-		    private final List<String> elementPath = new ArrayList<String>();
-		    private StringBuilder descriptionBuilder = new StringBuilder();
-		    private StringBuilder nameBuilder;
-		    private StringBuilder colorBuilder;
+                    private final List<String> elementPath = new ArrayList<String>();
+                    private StringBuilder descriptionBuilder = new StringBuilder();
+                    private StringBuilder nameBuilder;
+                    private StringBuilder colorBuilder;
 
-		    @Override
-		    public void startElement(String uri, String localName,
-			    String qName, Attributes attributes)
-			    throws SAXException {
-			super.startElement(uri, localName, qName, attributes);
-			elementPath.add(qName);
-			if (elementPath.size() < 2
-				|| !elementPath.subList(0, 2).equals(
-					Arrays.asList("hudson", "job")))
-			    return;
-			if (elementPath.size() == 2) {
-			    nameBuilder = new StringBuilder();
-			    colorBuilder = new StringBuilder();
-			}
-		    }
-		    
-		    @Override
-		    public void characters(char[] ch, int start, int length)
-		            throws SAXException {
-		        super.characters(ch, start, length);
-			if (elementPath.equals(Arrays.asList("hudson", "job",
-				"name")))
-			    nameBuilder.append(ch, start, length);
-			if (elementPath.equals(Arrays.asList("hudson", "job",
-				"color")))
-			    colorBuilder.append(ch, start, length);
-			if (elementPath.equals(Arrays.asList("hudson",
-				"description")))
-			    descriptionBuilder.append(ch, start, length);
-		    }
+                    @Override
+                    public void startElement(String uri, String localName,
+                                             String qName, Attributes attributes)
+                            throws SAXException {
+                        super.startElement(uri, localName, qName, attributes);
+                        elementPath.add(qName);
+                        if (elementPath.size() < 2
+                                || !elementPath.subList(0, 2).equals(
+                                Arrays.asList("hudson", "job")))
+                            return;
+                        if (elementPath.size() == 2) {
+                            nameBuilder = new StringBuilder();
+                            colorBuilder = new StringBuilder();
+                        }
+                    }
 
-		    @Override
-		    public void endElement(String uri, String localName,
-			    String qName) throws SAXException {
-			elementPath.remove(qName);
-			if (qName.equals("job")) {
-			    jobs.add(newJob(nameBuilder.toString(),
-				    colorBuilder.toString().toUpperCase()));
-			}
-			if (elementPath.equals(Arrays.asList("hudson"))
-				&& qName.equals("description")) {
-			    serverName = descriptionBuilder.toString();
-			}
-		    }
-		});
-	setJobs(jobs);
+                    @Override
+                    public void characters(char[] ch, int start, int length)
+                            throws SAXException {
+                        super.characters(ch, start, length);
+                        if (elementPath.equals(Arrays.asList("hudson", "job",
+                                "name")))
+                            nameBuilder.append(ch, start, length);
+                        if (elementPath.equals(Arrays.asList("hudson", "job",
+                                "color")))
+                            colorBuilder.append(ch, start, length);
+                        if (elementPath.equals(Arrays.asList("hudson",
+                                "description")))
+                            descriptionBuilder.append(ch, start, length);
+                    }
+
+                    @Override
+                    public void endElement(String uri, String localName,
+                                           String qName) throws SAXException {
+                        elementPath.remove(qName);
+                        if (qName.equals("job")) {
+                            jobs.add(newJob(nameBuilder.toString(),
+                                    colorBuilder.toString().toUpperCase()));
+                        }
+                        if (elementPath.equals(Arrays.asList("hudson"))
+                                && qName.equals("description")) {
+                            serverName = descriptionBuilder.toString();
+                        }
+                    }
+                });
+        setJobs(jobs);
     }
 
     static Job newJob(final String name, final String upperCaseColor) {
-	final Job job = new Job();
-	job.name = name;
-	final String[] parts = upperCaseColor.split("_");
-	final String colorValue = parts[0];
-	job.status = JobStatus.valueOf(colorValue);
-	if (parts.length > 1)
-	job.running = parts[1].equals("ANIME");
-	return job;
+        final Job job = new Job();
+        job.name = name;
+        final String[] parts = upperCaseColor.split("_");
+        final String colorValue = parts[0];
+        job.status = JobStatus.valueOf(colorValue);
+        if (parts.length > 1)
+            job.running = parts[1].equals("ANIME");
+        return job;
     }
 
     void setServerName(String serverName) {
-	this.serverName = serverName;
+        this.serverName = serverName;
     }
 
     void setJobs(List<Job> jobs) {
-	this.jobs = jobs;
+        this.jobs = jobs;
     }
 
 }

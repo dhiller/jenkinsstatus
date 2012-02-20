@@ -24,12 +24,12 @@ package de.dhiller.ci.jenkins;
 
 /**
  * Status of a jenkins job.
- * 
+ *
  * @author dhiller (creator)
  * @since 16.01.2012 08:23:20
  */
 public enum JobStatus {
 
-    BLUE, YELLOW, RED, GREY, DISABLED, ABORTED, NOTBUILT;
+    BLUE, YELLOW, RED, GREY, DISABLED, ABORTED, NOTBUILT
 
 }

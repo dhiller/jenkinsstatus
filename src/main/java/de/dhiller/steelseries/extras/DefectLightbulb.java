@@ -36,73 +36,73 @@ public class DefectLightbulb extends LightBulb {
 
     static class LightbulbState {
 
-	int msecs;
-	boolean on;
+        int msecs;
+        boolean on;
 
-	LightbulbState(int msecs, boolean on) {
-	    this.msecs = msecs;
-	    this.on = on;
-	}
+        LightbulbState(int msecs, boolean on) {
+            this.msecs = msecs;
+            this.on = on;
+        }
 
     }
 
     private static final Random random = new Random();
 
     private static List<LightbulbState> sequence = Arrays.asList(
-	    new LightbulbState(50, true), new LightbulbState(150, false),
-	    new LightbulbState(50, true), new LightbulbState(150, false),
-	    new LightbulbState(150, true), new LightbulbState(150, false),
-	    new LightbulbState(100, true), new LightbulbState(100, false),
-	    new LightbulbState(250, true), new LightbulbState(100, false),
-	    new LightbulbState(100, true), new LightbulbState(100, false),
-	    new LightbulbState(500, true), new LightbulbState(100, false),
-	    new LightbulbState(250, true), new LightbulbState(100, false),
-	    new LightbulbState(1500, true), new LightbulbState(100, false));
+            new LightbulbState(50, true), new LightbulbState(150, false),
+            new LightbulbState(50, true), new LightbulbState(150, false),
+            new LightbulbState(150, true), new LightbulbState(150, false),
+            new LightbulbState(100, true), new LightbulbState(100, false),
+            new LightbulbState(250, true), new LightbulbState(100, false),
+            new LightbulbState(100, true), new LightbulbState(100, false),
+            new LightbulbState(500, true), new LightbulbState(100, false),
+            new LightbulbState(250, true), new LightbulbState(100, false),
+            new LightbulbState(1500, true), new LightbulbState(100, false));
 
     private int sequenceIndex = 0;
 
     private final Timer timer = new Timer(0, new ActionListener() {
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	    setNextState();
-	}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setNextState();
+        }
     });
 
     private boolean on;
 
     @Override
     public void setOn(boolean ON) {
-	timer.stop();
-	super.setOn(false);
-	this.on = ON;
-	if (ON) {
-	    sequenceIndex = 0;
-	    setNextState();
-	}
+        timer.stop();
+        super.setOn(false);
+        this.on = ON;
+        if (ON) {
+            sequenceIndex = 0;
+            setNextState();
+        }
     }
 
     @Override
     public boolean isOn() {
-	return this.on;
+        return this.on;
     }
 
     private void setNextState() {
-	timer.stop();
-	if (!this.on)
-	    return;
-	if (sequenceIndex >= sequence.size())
-	    sequenceIndex = 0;
-	final LightbulbState nextState = sequence.get(sequenceIndex);
-	timer.setInitialDelay(delay(nextState));
-	super.setOn(nextState.on);
-	sequenceIndex++;
-	timer.restart();
+        timer.stop();
+        if (!this.on)
+            return;
+        if (sequenceIndex >= sequence.size())
+            sequenceIndex = 0;
+        final LightbulbState nextState = sequence.get(sequenceIndex);
+        timer.setInitialDelay(delay(nextState));
+        super.setOn(nextState.on);
+        sequenceIndex++;
+        timer.restart();
     }
 
     int delay(final LightbulbState nextState) {
-	return nextState.msecs
-		+ (random.nextInt() % ((int) (nextState.msecs * 0.1)));
+        return nextState.msecs
+                + (random.nextInt() % ((int) (nextState.msecs * 0.1)));
     }
 
 }

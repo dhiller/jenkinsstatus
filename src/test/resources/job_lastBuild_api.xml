@@ -1,304 +1,344 @@
 <mavenModuleSetBuild>
-	<action></action>
-	<action>
-		<cause>
-			<shortDescription>Build wurde durch eine SCM-Änderung ausgelöst.</shortDescription>
-		</cause>
-	</action>
-	<action></action>
-	<action>
-		<buildsByBranchName>
-			<originmaster>
-				<buildNumber>287</buildNumber>
-				<revision>
-					<SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
-					<branch>
-						<SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
-						<name>origin/master</name>
-					</branch>
-				</revision>
-			</originmaster>
-		</buildsByBranchName>
-		<lastBuiltRevision>
-			<SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
-			<branch>
-				<SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
-				<name>origin/master</name>
-			</branch>
-		</lastBuiltRevision>
-		<scmName></scmName>
-	</action>
-	<action></action>
-	<action></action>
-	<action></action>
-	<action>
-		<failCount>0</failCount>
-		<skipCount>0</skipCount>
-		<totalCount>2866</totalCount>
-		<urlName>testReport</urlName>
-	</action>
-	<action></action>
-	<action></action>
-	<building>false</building>
-	<duration>2152484</duration>
-	<fullDisplayName>webservice_SmartGate #287</fullDisplayName>
-	<id>2012-01-13_14-35-29</id>
-	<keepLog>false</keepLog>
-	<number>287</number>
-	<result>SUCCESS</result>
-	<timestamp>1326465329271</timestamp>
-	<url>http://jason:8091/job/webservice_SmartGate/287/</url>
-	<builtOn></builtOn>
-	<changeSet>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+    <action/>
+    <action>
+        <cause>
+            <shortDescription>Build wurde durch eine SCM-Änderung ausgelöst.</shortDescription>
+        </cause>
+    </action>
+    <action/>
+    <action>
+        <buildsByBranchName>
+            <originmaster>
+                <buildNumber>287</buildNumber>
+                <revision>
+                    <SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
+                    <branch>
+                        <SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
+                        <name>origin/master</name>
+                    </branch>
+                </revision>
+            </originmaster>
+        </buildsByBranchName>
+        <lastBuiltRevision>
+            <SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
+            <branch>
+                <SHA1>cf84967f22daa080d48e054beca7b8135b07e2e6</SHA1>
+                <name>origin/master</name>
+            </branch>
+        </lastBuiltRevision>
+        <scmName/>
+    </action>
+    <action/>
+    <action/>
+    <action/>
+    <action>
+        <failCount>0</failCount>
+        <skipCount>0</skipCount>
+        <totalCount>2866</totalCount>
+        <urlName>testReport</urlName>
+    </action>
+    <action/>
+    <action/>
+    <building>false</building>
+    <duration>2152484</duration>
+    <fullDisplayName>webservice_SmartGate #287</fullDisplayName>
+    <id>2012-01-13_14-35-29</id>
+    <keepLog>false</keepLog>
+    <number>287</number>
+    <result>SUCCESS</result>
+    <timestamp>1326465329271</timestamp>
+    <url>http://jason:8091/job/webservice_SmartGate/287/</url>
+    <builtOn/>
+    <changeSet>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Tests aus extrahierte Elemente umgestellt
-			</comment>
-			<date>2012-01-13 12:03:43 +0100</date>
-			<id>dbb930fcf54b616491a5f2b0ec8396859dcaceb4</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/BatchBuilderTest.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/BatchListBuilderTest.java
-				</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/ParameterBuilderTest.java
-				</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/ProcedureBuilderTest.java
-				</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                Tests aus extrahierte Elemente umgestellt
+            </comment>
+            <date>2012-01-13 12:03:43 +0100</date>
+            <id>dbb930fcf54b616491a5f2b0ec8396859dcaceb4</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/BatchBuilderTest.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/BatchListBuilderTest.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/ParameterBuilderTest.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/ProcedureBuilderTest.java
+                </file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Refactorings, Cleanup
-			</comment>
-			<date>2012-01-13 12:28:34 +0100</date>
-			<id>975de5309ed8ab96a3802ac85de8830ed53e7ad8</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/ProcedureCallOperation.java</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                Refactorings, Cleanup
+            </comment>
+            <date>2012-01-13 12:28:34 +0100</date>
+            <id>975de5309ed8ab96a3802ac85de8830ed53e7ad8</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/ProcedureCallOperation.java
+                </file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				StatementBuilder extrahiert
-			</comment>
-			<date>2012-01-13 12:56:47 +0100</date>
-			<id>c32579bfef70fc16c0d91400968d823e0ad26a92</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>add</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                StatementBuilder extrahiert
+            </comment>
+            <date>2012-01-13 12:56:47 +0100</date>
+            <id>c32579bfef70fc16c0d91400968d823e0ad26a92</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>add</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java
+                </file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Refactoring, Cleanup
-			</comment>
-			<date>2012-01-13 13:15:36 +0100</date>
-			<id>fd7d48a82ecb3df9288c4bec917d55e717b588df</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                Refactoring, Cleanup
+            </comment>
+            <date>2012-01-13 13:15:36 +0100</date>
+            <id>fd7d48a82ecb3df9288c4bec917d55e717b588df</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Methodenzugriff eingeschränkt
-			</comment>
-			<date>2012-01-13 13:25:26 +0100</date>
-			<id>48f8080723752ca6c17d7d66d140b3a3aa846a44</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                Methodenzugriff eingeschränkt
+            </comment>
+            <date>2012-01-13 13:25:26 +0100</date>
+            <id>48f8080723752ca6c17d7d66d140b3a3aa846a44</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java
+                </file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Refactoring, Cleanup
-			</comment>
-			<date>2012-01-13 13:56:11 +0100</date>
-			<id>2d2722b20b7d9221c48fdf1c566d43fab0868a51</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementProxy.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/RequestHandler.java</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                Refactoring, Cleanup
+            </comment>
+            <date>2012-01-13 13:56:11 +0100</date>
+            <id>2d2722b20b7d9221c48fdf1c566d43fab0868a51</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementProxy.java</file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/StatementExecutor.java</file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/RequestHandler.java</file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Cleanup: Elemente umbenannt bzw. nicht mehr beötigte gelöscht
-			</comment>
-			<date>2012-01-13 14:19:08 +0100</date>
-			<id>21423418989c25d95923662defa8db51a5763b3c</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseElement.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/request/SQLQueryBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/QueryAttribute.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/SQLQueryBuilderTest.java
-				</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/request/RequestElement.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice_TestBaseData/src/test/java/de/dbap/webservice/operation/procedurecall/ProcedureCallOperationTest.java
-				</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/RequestHandler.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java</file>
-			</path>
-		</item>
-		<item>
-			<author>
-				<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-				<fullName>d.hiller</fullName>
-			</author>
-			<comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
-				http://jason.dbap.de/trac/SmartSuite/ticket/2611
+                Cleanup: Elemente umbenannt bzw. nicht mehr beötigte gelöscht
+            </comment>
+            <date>2012-01-13 14:19:08 +0100</date>
+            <id>21423418989c25d95923662defa8db51a5763b3c</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseElement.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/request/SQLQueryBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/QueryAttribute.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/test/java/de/dbap/webservice/operation/procedurecall/xml/request/SQLQueryBuilderTest.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/request/RequestElement.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice_TestBaseData/src/test/java/de/dbap/webservice/operation/procedurecall/ProcedureCallOperationTest.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/RequestHandler.java</file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/StatementBuilder.java
+                </file>
+            </path>
+        </item>
+        <item>
+            <author>
+                <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+                <fullName>d.hiller</fullName>
+            </author>
+            <comment>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL
+                http://jason.dbap.de/trac/SmartSuite/ticket/2611
 
-				Weitere Elemente und Attribute in Enumerationen ausgelagert
-				Tests und Klassen darauf umgestellt
-			</comment>
-			<date>2012-01-13 14:36:44 +0100</date>
-			<id>cf84967f22daa080d48e054beca7b8135b07e2e6</id>
-			<msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
-			<path>
-				<editType>add</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ColumnAttribute.java</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ProcCallResultStringBuilder.java
-				</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice_TestBaseData/src/test/java/de/dbap/webservice/operation/procedurecall/ProcedureCallOperationTest.java
-				</file>
-			</path>
-			<path>
-				<editType>edit</editType>
-				<file>webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseElement.java</file>
-			</path>
-		</item>
-	</changeSet>
-	<culprit>
-		<absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
-		<fullName>d.hiller</fullName>
-	</culprit>
-	<mavenArtifacts></mavenArtifacts>
-	<mavenVersionUsed>3.0.3</mavenVersionUsed>
+                Weitere Elemente und Attribute in Enumerationen ausgelagert
+                Tests und Klassen darauf umgestellt
+            </comment>
+            <date>2012-01-13 14:36:44 +0100</date>
+            <id>cf84967f22daa080d48e054beca7b8135b07e2e6</id>
+            <msg>#2611 - Neue Methoden zur Ausführung von Engine-Prozeduren und SQL</msg>
+            <path>
+                <editType>add</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ColumnAttribute.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ProcCallResultStringBuilder.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice_TestBaseData/src/test/java/de/dbap/webservice/operation/procedurecall/ProcedureCallOperationTest.java
+                </file>
+            </path>
+            <path>
+                <editType>edit</editType>
+                <file>
+                    webservice/src/main/java/de/dbap/webservice/operation/procedurecall/xml/response/ResponseElement.java
+                </file>
+            </path>
+        </item>
+    </changeSet>
+    <culprit>
+        <absoluteUrl>http://jason:8091/user/d.hiller</absoluteUrl>
+        <fullName>d.hiller</fullName>
+    </culprit>
+    <mavenArtifacts/>
+    <mavenVersionUsed>3.0.3</mavenVersionUsed>
 </mavenModuleSetBuild>

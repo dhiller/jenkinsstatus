@@ -22,44 +22,45 @@
 
 package de.dhiller.ci.jenkins;
 
-import static org.testng.AssertJUnit.*;
-
 import org.testng.annotations.Test;
+
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class JobTest {
 
     @Test
     public void equal() throws Exception {
-	assertTrue(job().equals(job()));
+        assertTrue(job().equals(job()));
     }
 
     @Test
     public void nameNotEqual() throws Exception {
-	final Job first = job();
-	first.name = "blah";
-	assertFalse(first.equals(job()));
+        final Job first = job();
+        first.name = "blah";
+        assertFalse(first.equals(job()));
     }
 
     @Test
     public void runningNotEqual() throws Exception {
-	final Job first = job();
-	first.running = false;
-	assertFalse(first.equals(job()));
+        final Job first = job();
+        first.running = false;
+        assertFalse(first.equals(job()));
     }
 
     @Test
     public void statusNotEqual() throws Exception {
-	final Job first = job();
-	first.status = JobStatus.RED;
-	assertFalse(first.equals(job()));
+        final Job first = job();
+        first.status = JobStatus.RED;
+        assertFalse(first.equals(job()));
     }
 
     protected Job job() {
-	final Job job = new Job();
-	job.name = "test";
-	job.running = true;
-	job.status = JobStatus.BLUE;
-	return job;
+        final Job job = new Job();
+        job.name = "test";
+        job.running = true;
+        job.status = JobStatus.BLUE;
+        return job;
     }
 
 }

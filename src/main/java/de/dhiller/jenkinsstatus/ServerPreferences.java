@@ -22,24 +22,21 @@
 
 package de.dhiller.jenkinsstatus;
 
-import java.awt.BorderLayout;
+import javax.swing.JDialog;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.prefs.Preferences;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-
 final class ServerPreferences extends JDialog {
 
     static final Preferences preferences = Preferences
-	    .userNodeForPackage(Main.class);
+            .userNodeForPackage(Main.class);
     static final String SERVER_URI = "ServerURI";
 
     static void saveURI(final String uriText) throws URISyntaxException {
-	final URI uri = new URI(uriText);
-	ServerPreferences.preferences.put(ServerPreferences.SERVER_URI,
-		uri.toASCIIString());
+        final URI uri = new URI(uriText);
+        ServerPreferences.preferences.put(ServerPreferences.SERVER_URI,
+                uri.toASCIIString());
     }
 
     static String serverURI() {

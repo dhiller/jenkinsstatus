@@ -22,171 +22,162 @@
 
 package de.dhiller.jenkinsstatus;
 
-import static org.mockito.Mockito.*;
-import static org.testng.AssertJUnit.assertEquals;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.JFrame;
-
+import de.dhiller.ci.jenkins.JobStatus;
+import de.dhiller.ci.jenkins.Status;
+import eu.hansolo.steelseries.extras.Led;
+import eu.hansolo.steelseries.extras.LightBulb;
 import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.edt.GuiTask;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.fixture.JLabelFixture;
 import org.fest.swing.fixture.JPanelFixture;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import de.dhiller.ci.jenkins.Job;
-import de.dhiller.ci.jenkins.JobStatus;
-import de.dhiller.ci.jenkins.Status;
-import eu.hansolo.steelseries.extras.Led;
-import eu.hansolo.steelseries.extras.LightBulb;
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 public class StatusPanelTest {
 
     static final String JOB_NAME = "Job 1";
-    JFrame f;
     StatusPanel statusPanel;
     private FrameFixture frameFixture;
     private JPanelFixture jPanelFixture;
 
     @BeforeMethod
     public void init() throws InterruptedException, InvocationTargetException {
-	GuiActionRunner.execute(new GuiQuery<JFrame>() {
+        GuiActionRunner.execute(new GuiQuery<JFrame>() {
 
-	    @Override
-	    protected JFrame executeInEDT() throws Throwable {
-		final JFrame f = new JFrame();
-		statusPanel = new StatusPanel();
-		f.getContentPane().add(statusPanel);
-		f.setVisible(true);
-		frameFixture = new FrameFixture(f);
-		jPanelFixture = new JPanelFixture(frameFixture.robot,
-			statusPanel);
-		return f;
-	    }
-	});
+            @Override
+            protected JFrame executeInEDT() throws Throwable {
+                final JFrame f = new JFrame();
+                statusPanel = new StatusPanel();
+                f.getContentPane().add(statusPanel);
+                f.setVisible(true);
+                frameFixture = new FrameFixture(f);
+                jPanelFixture = new JPanelFixture(frameFixture.robot,
+                        statusPanel);
+                return f;
+            }
+        });
     }
 
     @AfterMethod
     public void cleanUp() throws InterruptedException,
-	    InvocationTargetException {
-	frameFixture.cleanUp();
+            InvocationTargetException {
+        frameFixture.cleanUp();
     }
 
     @Test(enabled = false)
     public void noJobs() throws Exception {
-	// TODO: Search for other components
+        // TODO: Search for other components
     }
 
     @Test
     public void jobName() throws Exception {
-	setJob(JobStatus.RED, false);
-	assertEquals(JOB_NAME, jobLabel().text());
+        setJob(JobStatus.RED, false);
+        assertEquals(JOB_NAME, jobLabel().text());
     }
 
     @Test
     public void blueStatus() throws Exception {
-	setJob(JobStatus.BLUE, false);
-	greenLed().requireOn().requireNonBlinking();
-	yellowLed().requireOff().requireNonBlinking();
-	redLed().requireOff().requireNonBlinking();
+        setJob(JobStatus.BLUE, false);
+        greenLed().requireOn().requireNonBlinking();
+        yellowLed().requireOff().requireNonBlinking();
+        redLed().requireOff().requireNonBlinking();
     }
 
     @Test
     public void yellowStatus() throws Exception {
-	setJob(JobStatus.YELLOW, false);
-	greenLed().requireOff().requireNonBlinking();
-	yellowLed().requireOn().requireNonBlinking();
-	redLed().requireOff().requireNonBlinking();
+        setJob(JobStatus.YELLOW, false);
+        greenLed().requireOff().requireNonBlinking();
+        yellowLed().requireOn().requireNonBlinking();
+        redLed().requireOff().requireNonBlinking();
     }
 
     @Test
     public void redStatus() throws Exception {
-	setJob(JobStatus.RED, false);
-	greenLed().requireOff().requireNonBlinking();
-	yellowLed().requireOff().requireNonBlinking();
-	redLed().requireOn().requireNonBlinking();
+        setJob(JobStatus.RED, false);
+        greenLed().requireOff().requireNonBlinking();
+        yellowLed().requireOff().requireNonBlinking();
+        redLed().requireOn().requireNonBlinking();
     }
 
     @Test
     public void runningAfterRedStatus() throws Exception {
-	setJob(JobStatus.RED, true);
-	greenLed().requireOff().requireNonBlinking();
-	yellowLed().requireOff().requireNonBlinking();
-	redLed().requireOn().requireBlinking();
+        setJob(JobStatus.RED, true);
+        greenLed().requireOff().requireNonBlinking();
+        yellowLed().requireOff().requireNonBlinking();
+        redLed().requireOn().requireBlinking();
     }
 
     @Test
     public void disabledSwitchesLightbulbOff() throws Exception {
-	setJob(JobStatus.DISABLED, false);
-	lightBulb().requireOff();
-	greenLed().requireOff().requireNonBlinking();
-	yellowLed().requireOff().requireNonBlinking();
-	redLed().requireOff().requireNonBlinking();
+        setJob(JobStatus.DISABLED, false);
+        lightBulb().requireOff();
+        greenLed().requireOff().requireNonBlinking();
+        yellowLed().requireOff().requireNonBlinking();
+        redLed().requireOff().requireNonBlinking();
     }
 
     @Test
     public void blueStatusSwitchesLightbulbOn() throws Exception {
-	setJob(JobStatus.BLUE, false);
-	lightBulb().requireOn();
+        setJob(JobStatus.BLUE, false);
+        lightBulb().requireOn();
     }
 
     LightBulbFixture lightBulb() {
-	return new LightBulbFixture(frameFixture.robot, frameFixture.robot
-		.finder().findByName(StatusPanel.LIGHTBULB, LightBulb.class));
+        return new LightBulbFixture(frameFixture.robot, frameFixture.robot
+                .finder().findByName(StatusPanel.LIGHTBULB, LightBulb.class));
     }
 
     @Test
     public void notBuilt() throws Exception {
-	setJob(JobStatus.NOTBUILT, true);
-	greenLed().requireOff().requireNonBlinking();
-	yellowLed().requireOff().requireNonBlinking();
-	redLed().requireOff().requireNonBlinking();
+        setJob(JobStatus.NOTBUILT, true);
+        greenLed().requireOff().requireNonBlinking();
+        yellowLed().requireOff().requireNonBlinking();
+        redLed().requireOff().requireNonBlinking();
     }
 
     LedFixture yellowLed() {
-	return led("yellow");
+        return led("yellow");
     }
 
     LedFixture greenLed() {
-	return led("green");
+        return led("green");
     }
 
     LedFixture redLed() {
-	return led("red");
+        return led("red");
     }
 
     LedFixture led(final String name) {
-	return new LedFixture(frameFixture.robot, frameFixture.robot.finder()
-		.findByName(name, Led.class));
+        return new LedFixture(frameFixture.robot, frameFixture.robot.finder()
+                .findByName(name, Led.class));
     }
 
     void setJob(JobStatus jobStatus2, boolean running) {
-	updateStatus(MockFactory.newStatus(MockFactory.newJob(StatusPanelTest.JOB_NAME,
-		jobStatus2, running)));
+        updateStatus(MockFactory.newStatus(MockFactory.newJob(StatusPanelTest.JOB_NAME,
+                jobStatus2, running)));
     }
 
     void updateStatus(final Status serverStatus) {
-	GuiActionRunner.execute(new GuiTask() {
+        GuiActionRunner.execute(new GuiTask() {
 
-	    @Override
-	    protected void executeInEDT() throws Throwable {
-		statusPanel.updateStatus(serverStatus);
-		frameFixture.component().pack();
-	    }
-	});
+            @Override
+            protected void executeInEDT() throws Throwable {
+                statusPanel.updateStatus(serverStatus);
+                frameFixture.component().pack();
+            }
+        });
     }
 
     JLabelFixture jobLabel() {
-	return jPanelFixture.label(StatusPanel.JOB_NAME);
+        return jPanelFixture.label(StatusPanel.JOB_NAME);
     }
 
 }

@@ -26,33 +26,29 @@ public class Job {
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	result = prime * result + (running ? 1231 : 1237);
-	result = prime * result + ((status == null) ? 0 : status.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + (running ? 1231 : 1237);
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	Job other = (Job) obj;
-	if (name == null) {
-	    if (other.name != null)
-		return false;
-	} else if (!name.equals(other.name))
-	    return false;
-	if (running != other.running)
-	    return false;
-	if (status != other.status)
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Job other = (Job) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return running == other.running && status == other.status;
     }
 
     String name;
@@ -60,21 +56,21 @@ public class Job {
     boolean running;
 
     public String name() {
-	return name;
+        return name;
     }
 
     public JobStatus status() {
-	return status;
+        return status;
     }
 
     public boolean isRunning() {
-	return running;
+        return running;
     }
 
     @Override
     public String toString() {
-	return "Job [name=" + name + ", status=" + status + ", running="
-		+ running + "]";
+        return "Job [name=" + name + ", status=" + status + ", running="
+                + running + "]";
     }
 
 }

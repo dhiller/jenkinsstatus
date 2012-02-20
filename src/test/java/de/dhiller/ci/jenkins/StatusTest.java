@@ -22,15 +22,10 @@
 
 package de.dhiller.ci.jenkins;
 
-import static org.testng.AssertJUnit.*;
-
-import java.io.IOException;
-
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import de.dhiller.ci.jenkins.Status;
+import static org.testng.AssertJUnit.*;
 
 public class StatusTest {
 
@@ -38,80 +33,81 @@ public class StatusTest {
 
     @BeforeClass
     void setUpTestInstance() throws Exception {
-	status = new Status();
-	status.parse(getClass().getResourceAsStream(
-		"/api.xml"));
+        status = new Status();
+        status.parse(getClass().getResourceAsStream(
+                "/api.xml"));
     }
 
     @Test
     public void serverName() throws Exception {
-	assertTrue(status.serverName().contains("Jenkins Instanz auf dhiller"));
+        assertTrue(status.serverName().contains("Jenkins Instanz auf dhiller"));
     }
 
     @Test
     public void hasJobs() throws Exception {
-	assertFalse(status.jobs().isEmpty());
+        assertFalse(status.jobs().isEmpty());
     }
 
     @Test
     public void names() throws Exception {
-	assertEquals("First_Job", first().name());
-	assertEquals("Second_Job", second().name());
-	assertEquals("Third_Job", third().name());
+        assertEquals("First_Job", first().name());
+        assertEquals("Second_Job", second().name());
+        assertEquals("Third_Job", third().name());
     }
 
     @Test
     public void statuses() throws Exception {
-	assertEquals(JobStatus.YELLOW, first().status());
-	assertEquals(JobStatus.RED, second().status());
-	assertEquals(JobStatus.BLUE, third().status());
-	assertEquals(JobStatus.YELLOW, job(3).status());
-	assertEquals(JobStatus.RED, job(4).status());
-	assertEquals(JobStatus.BLUE, job(5).status());
+        assertEquals(JobStatus.YELLOW, first().status());
+        assertEquals(JobStatus.RED, second().status());
+        assertEquals(JobStatus.BLUE, third().status());
+        assertEquals(JobStatus.YELLOW, job(3).status());
+        assertEquals(JobStatus.RED, job(4).status());
+        assertEquals(JobStatus.BLUE, job(5).status());
     }
 
     @Test
     public void running() throws Exception {
-	assertFalse(first().isRunning());
-	assertTrue(job(3).isRunning());
+        assertFalse(first().isRunning());
+        assertTrue(job(3).isRunning());
     }
 
     @Test
     public void nameNotEqual() throws Exception {
-	assertFalse(newStatus("17").equals(newStatus("42")));
+        assertFalse(newStatus("17").equals(newStatus("42")));
     }
 
     @Test
     public void nameEqual() throws Exception {
-	assertTrue(newStatus("17").equals(newStatus("17")));
+        assertTrue(newStatus("17").equals(newStatus("17")));
+    }
+
+    @Test
+    public void notEqual() throws Exception {
+        final Status first = new Status();
+        first.setServerName("17");
+        assertFalse(first.equals(new Status()));
     }
 
     protected Status newStatus(final String serverName) {
-	final Status first = new Status();
-	first.setServerName(serverName);
-	return first;
-    }
-
-    public void notEqual() throws Exception {
-	final Status first = new Status();
-	first.setServerName("17");
-	assertTrue(first.equals(new Status()));
+        final Status first = new Status();
+        first.setServerName(serverName);
+        return first;
     }
 
     Job first() {
-	return job(0);
+        return job(0);
     }
 
     Job second() {
-	return job(1);
+        return job(1);
     }
 
     Job third() {
-	return job(2);
+        return job(2);
     }
 
     Job job(int index) {
-	return status.jobs().get(index);
+        return status.jobs().get(index);
     }
 
 }

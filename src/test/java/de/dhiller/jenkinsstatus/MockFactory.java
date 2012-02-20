@@ -22,30 +22,29 @@
 
 package de.dhiller.jenkinsstatus;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.List;
-
 import de.dhiller.ci.jenkins.Job;
 import de.dhiller.ci.jenkins.JobStatus;
 import de.dhiller.ci.jenkins.Status;
+
+import java.util.Arrays;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class MockFactory {
 
     static Status newStatus(final Job... jobs) {
         final Status serverStatus = mock(Status.class);
-	when(serverStatus.jobs()).thenReturn(Arrays.asList(jobs));
+        when(serverStatus.jobs()).thenReturn(Arrays.asList(jobs));
         return serverStatus;
     }
 
     static Job newJob(String name, JobStatus status, boolean running) {
-	final Job result = mock(Job.class);
-	when(result.name()).thenReturn(name);
-	when(result.status()).thenReturn(status);
-	when(result.isRunning()).thenReturn(running);
-	return result;
+        final Job result = mock(Job.class);
+        when(result.name()).thenReturn(name);
+        when(result.status()).thenReturn(status);
+        when(result.isRunning()).thenReturn(running);
+        return result;
     }
 
 }

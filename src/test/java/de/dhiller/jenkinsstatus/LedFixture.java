@@ -37,51 +37,51 @@ final class LedFixture extends GenericComponentFixture<Led> {
     }
 
     LedFixture requireOff() {
-	requireOn(false);
-	return this;
+        requireOn(false);
+        return this;
     }
 
     LedFixture requireOn() {
-	requireOn(true);
-	return this;
+        requireOn(true);
+        return this;
     }
 
     LedFixture requireNonBlinking() {
-	requireBlinking(false);
-	return this;
+        requireBlinking(false);
+        return this;
     }
 
     LedFixture requireBlinking() {
-	requireBlinking(true);
-	return this;
+        requireBlinking(true);
+        return this;
     }
 
     LedFixture requireBlinking(final boolean expected) {
         assertEquals(expected, blinking());
-	return this;
+        return this;
     }
 
     LedFixture requireOn(final boolean expected) {
-	assertEquals(expected, on());
-	return this;
+        assertEquals(expected, on());
+        return this;
     }
 
     boolean blinking() {
         return GuiActionRunner.execute(new GuiQuery<Boolean>() {
 
-    	@Override
-    	protected Boolean executeInEDT() throws Throwable {
-    	    return component().isLedBlinking();
-    	}
+            @Override
+            protected Boolean executeInEDT() throws Throwable {
+                return component().isLedBlinking();
+            }
         });
     }
 
     boolean on() {
         return GuiActionRunner.execute(new GuiQuery<Boolean>() {
-    	@Override
-    	protected Boolean executeInEDT() throws Throwable {
-    	    return component().isLedOn();
-    	}
+            @Override
+            protected Boolean executeInEDT() throws Throwable {
+                return component().isLedOn();
+            }
         });
     }
 }
