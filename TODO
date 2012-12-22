@@ -1,6 +1,7 @@
 TODO
 ====
 
+ - Support http basic authentication
  - Integrate AppleJavaExtensions
    - Create an abstraction layer that makes the this usable even if the
      AppleJavaExtensions.jar is not present
@@ -11,7 +12,7 @@ TODO
    - Text field
  - Research java screen saver support
 	http://stackoverflow.com/questions/2135982/turn-java-app-into-screensaver
- 
+
 DONE
 ====
  
